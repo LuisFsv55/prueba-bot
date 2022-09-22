@@ -48,7 +48,7 @@ const PedirNombreCelular = async( resultado ) => {
         const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
         const registrar = new Cliente( { nombre, celular } );
         registrar.save();
-        console.log('------- Cleinte creado -------' + Cleinte)
+        console.log('------- Cleinte creado -------' + Cliente)
     } catch (error) {
         console.log('Error al insertar en la db: ' + e);
     }
