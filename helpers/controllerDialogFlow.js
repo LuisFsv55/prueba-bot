@@ -57,9 +57,9 @@ const controllerDialogFlow = async( resultado, senderId ) => {
 }
 const valor = async( resultado, facebookId ) => {
     try {
-        console.log(resultado);
+        console.log(resultado.queryText);
         console.log(resultado.outputContexts);
-        const comentario = resultado?.outputContexts[1].parameters.fields.any.stringValue;
+        const comentario = resultado?.queryText;
         console.log("comentario" + comentario)
         const cliente = await Cliente.findOne({ facebookId });
         const registrar = new Valoracion( { opinion: comentario, cliente  } );
