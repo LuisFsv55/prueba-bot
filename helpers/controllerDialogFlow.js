@@ -8,7 +8,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
     switch (resultado.intent.displayName) {
-        case 'Promociones': 
+        case 'Promocion': 
             respuesta = await Promociones( resultado.fulfillmentText );
             peticion = await envio( respuesta, senderId )
             break;
@@ -42,7 +42,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     }
     return peticion;
 }
-const Promociones = async() => {
+const Promociones = async( resultado ) => {
     const promoDb = await Promocion.find();
     let strPromos = 'Las promociones de este mes: \n';
     promoDb.forEach( pro => {
@@ -58,7 +58,7 @@ const formaMesaCuadrada = async( resultado, facebookId ) => {
     if ( cliente && producto ) {
         await Consulta({ producto, cliente });
     }
-    return resultado;
+    return resultado.fulfillmentText;
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
