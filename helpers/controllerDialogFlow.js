@@ -62,7 +62,7 @@ const valor = async( resultado, facebookId ) => {
         registrar.save();
         console.log('------- Valoracion creada -------' + Cliente)
     } catch (error) {
-        console.log('Error al insertar en la db: ' + e);
+        console.log('Error al insertar en la db: ' + error);
     }
     return resultado.fulfillmentText;
 }
