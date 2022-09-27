@@ -110,8 +110,13 @@ const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
         const nombre = resultado?.outputContexts[0].parameters.fields.any.stringValue;
         const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
-        const registrar = new Cliente( { nombre, celular, facebookId  } );
-        registrar.save();
+        const cliente = await Cliente.findOne({ facebookId })
+        if ( cliente ) {
+            await cliente.updateOne( { nombre, celular } );
+        } else {
+            const registrar = new Cliente( { nombre, celular, facebookId  } );
+            registrar.save();
+        }
         console.log('------- Cliente creado -------' + Cliente)
     } catch (error) {
         console.log('Error al insertar en la db: ' + e);
