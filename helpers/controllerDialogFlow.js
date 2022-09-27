@@ -3,6 +3,7 @@ const Sucursal = require("../models/Sucursal");
 const Promocion = require("../models/Promocion");
 const Producto = require("../models/Producto");
 const Consulta = require("../models/Consulta");
+const Valoracion = require("../models/Valoracion");
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
@@ -36,11 +37,34 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             respuesta = await formaMesaCuadrada( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
+        case 'formaMesaCircular':
+            respuesta = await formaMesaCircular( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
+        case 'PedidoSillas':
+            respuesta = await PedidoSillas( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
+        case 'Valoracion':
+            respuesta = await valor( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
         default:
             peticion = await envio( resultado.fulfillmentText, senderId );
             break;
     }
     return peticion;
+}
+const valor = async( resultado, facebookId ) => {
+    try {
+        const comentario = resultado?.outputContexts[0].parameters.fields.any.stringValue;
+        const registrar = new Valoracion( { opinion: comentario, cliente: facebookId  } );
+        registrar.save();
+        console.log('------- Valoracion creada -------' + Cliente)
+    } catch (error) {
+        console.log('Error al insertar en la db: ' + e);
+    }
+    return resultado.fulfillmentText;
 }
 const Promociones = async( resultado ) => {
     const promoDb = await Promocion.find();
@@ -60,6 +84,24 @@ const formaMesaCuadrada = async( resultado, facebookId ) => {
     console.log("facebook id" + facebookId);
     if ( cliente && producto ) {
         console.log('entro aqui');
+        await Consulta.create({ producto, cliente });
+    }
+    return resultado.fulfillmentText;
+}
+const formaMesaCircular = async( resultado, facebookId ) => {
+    console.log('mesa cuadrada');
+    const producto = await Producto.findOne({ forma: 'Redonda' });
+    const cliente = await Cliente.findOne({ facebookId });
+    if ( cliente && producto ) {
+        console.log('entro aqui');
+        await Consulta.create({ producto, cliente });
+    }
+    return resultado.fulfillmentText;
+}
+const PedidoSillas = async( resultado, facebookId ) => {
+    const producto = await Producto.findOne({ nombre: 'Silla' });
+    const cliente = await Cliente.findOne({ facebookId });
+    if ( cliente && producto ) {
         await Consulta.create({ producto, cliente });
     }
     return resultado.fulfillmentText;
