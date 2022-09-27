@@ -45,16 +45,19 @@ const controllerDialogFlow = async( resultado, senderId ) => {
 const Promociones = async( resultado ) => {
     const promoDb = await Promocion.find();
     let strPromos = 'Las promociones de este mes: \n';
-    promoDb.forEach( pro => {
-        strPromos = strPromos + `\n *⌛ 1. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
-        strPromos = strPromos + `\n *⌛ 2. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
+    promoDb.forEach( (pro, index) => {
+        strPromos = strPromos + `\n *⌛ ${ index }. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
     });
     strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego`;
     return strPromos;
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
+    console.log('mesa cuadrada');
     const cliente = await Cliente.findOne({ facebookId });
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
+    console.log(cliente);
+    console.log(producto);
+    console.log("facebook id" + facebookId);
     if ( cliente && producto ) {
         await Consulta({ producto, cliente });
     }
