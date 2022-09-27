@@ -110,11 +110,13 @@ const PedidoSillas = async( resultado, facebookId ) => {
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
+        console.log(resultado);
         const nombre = resultado?.outputContexts[0].parameters.fields.any.stringValue;
         const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
-        const cliente = await Cliente.findOne({ facebookId })
+        const cliente = await Cliente.findOne({ facebookId: `${facebookId}` })
         if ( cliente ) {
-            await cliente.updateOne( { nombre, celular } );
+            console.log("cliente" + cliente)
+            await cliente.updateOne( { nombre, celular, facebookId } );
         } else {
             const registrar = new Cliente( { nombre, celular, facebookId  } );
             registrar.save();
