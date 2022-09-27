@@ -117,14 +117,14 @@ const PedirNombreCelular = async( resultado, facebookId ) => {
         console.log(resultado.outputContexts[1].parameters.fields);
         const nombre = resultado?.outputContexts[1].parameters.fields.any.stringValue;
         // console.log("nombre"+ nombre)
-        const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
+        const celular = resultado?.outputContexts[1].parameters.fields.number.numberValue;
         // console.log("celular"+ celular)
         const cliente = await Cliente.findOne({ facebookId: `${facebookId}` })
         // console.log("cliente" + cliente)
         if ( cliente ) {
             await cliente.updateOne( { nombre, celular, facebookId } );
         } else {
-            // const registrar = new Cliente( { nombre, celular, facebookId  } );
+            const registrar = new Cliente( { nombre, celular, facebookId  } );
             registrar.save();
         }
         console.log('------- Cliente creado -------' + Cliente)
