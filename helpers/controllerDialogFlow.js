@@ -110,6 +110,7 @@ const PedidoSillas = async( resultado, facebookId ) => {
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
+        console.log(resultado);
         console.log(resultado.outputContexts[0]);
         console.log(resultado.outputContexts[0].parameters);
         console.log(resultado.outputContexts[0].parameters.fields);
