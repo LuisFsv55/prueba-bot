@@ -110,16 +110,17 @@ const PedidoSillas = async( resultado, facebookId ) => {
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
-        console.log(resultado);
-        console.log(resultado.parameters);
-        console.log(resultado.parameters.fields);
+        // console.log(resultado);
+        // console.log(resultado.parameters);
+        // console.log(resultado.parameters.fields);
+        console.log(resultado.outputContexts[0].parameters.fields);
         console.log(resultado.outputContexts[1].parameters.fields);
-        const nombre = resultado?.outputContexts[0].parameters.fields.any.stringValue;
-        console.log("nombre"+ nombre)
+        const nombre = resultado?.outputContexts[1].parameters.fields.any.stringValue;
+        // console.log("nombre"+ nombre)
         const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
-        console.log("celular"+ celular)
+        // console.log("celular"+ celular)
         const cliente = await Cliente.findOne({ facebookId: `${facebookId}` })
-        console.log("cliente" + cliente)
+        // console.log("cliente" + cliente)
         if ( cliente ) {
             await cliente.updateOne( { nombre, celular, facebookId } );
         } else {
