@@ -1,17 +1,17 @@
 const Cliente = require("../models/Cliente");
-const Alquiler = require("../models/Alquiler");
 const Sucursal = require("../models/Sucursal");
+const Promocion = require("../models/Promocion");
+const Producto = require("../models/Producto");
+const Consulta = require("../models/Consulta");
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
-    // console.log('---------------controller--------------');
-    // console.log(resultado)
-    // console.log('---------------fin controller--------------');
-    // if (resultado.intent.displayName === 'Saludo') {
-    //     console.log('si entre al if de saludo');
-    // }
     switch (resultado.intent.displayName) {
+        case 'Promociones': 
+            respuesta = await Promociones( resultado.fulfillmentText );
+            peticion = await envio( respuesta, senderId )
+            break;
         case 'Sucursales': 
             respuesta = await Sucursales( resultado.fulfillmentText );
             peticion = await envio( respuesta, senderId )
@@ -21,20 +21,20 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             peticion = await envio( respuesta, senderId )
             break;
         case 'Mesas':
-                respuesta = await Mesas( resultado.fulfillmentText );
-                peticion = await envio( respuesta, senderId )
-                break;
+            respuesta = await Mesas( resultado.fulfillmentText );
+            peticion = await envio( respuesta, senderId )
+            break;
         case 'Precios':
-            respuesta = await Precios( resultado.fulfillmentText );
+            respuesta = await Precios( resultado.fulfillmentText, senderId );
             peticion = await envio( respuesta, senderId )
             break;
         case 'pedirTelefono':
-            // console.log('-------Entro a pedirTelefono ----')
-            // console.log(resultado?.outputContexts[0].parameters.fields.any.stringValue)
-            // console.log(resultado?.outputContexts[0].parameters.fields.number.numberValue)
-            respuesta = await PedirNombreCelular( resultado );
+            respuesta = await PedirNombreCelular( resultado, senderId );
             peticion = await envio( respuesta, senderId );
-            // console.log('-------Sale de pedirTelefono ----')
+            break;
+        case 'formaMesaCuadrada':
+            respuesta = await formaMesaCuadrada( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
             break;
         default:
             peticion = await envio( resultado.fulfillmentText, senderId );
@@ -42,29 +42,47 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     }
     return peticion;
 }
-const PedirNombreCelular = async( resultado ) => {
+const Promociones = async() => {
+    const promoDb = await Promocion.find();
+    let strPromos = 'Las promociones de este mes: \n';
+    promoDb.forEach( pro => {
+        strPromos = strPromos + `\n *⌛ 1. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
+        strPromos = strPromos + `\n *⌛ 2. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
+    });
+    strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego`;
+    return strPromos;
+}
+const formaMesaCuadrada = async( resultado, facebookId ) => {
+    const cliente = await Cliente.findOne({ facebookId });
+    const producto = await Producto.findOne({ forma: 'Cuadrada' });
+    if ( cliente && producto ) {
+        await Consulta({ producto, cliente });
+    }
+    return resultado;
+}
+const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
         const nombre = resultado?.outputContexts[0].parameters.fields.any.stringValue;
         const celular = resultado?.outputContexts[0].parameters.fields.number.numberValue;
-        const registrar = new Cliente( { nombre, celular } );
+        const registrar = new Cliente( { nombre, celular, facebookId  } );
         registrar.save();
-        console.log('------- Cleinte creado -------' + Cliente)
+        console.log('------- Cliente creado -------' + Cliente)
     } catch (error) {
         console.log('Error al insertar en la db: ' + e);
     }
     return resultado.fulfillmentText;
 }
-const Precios = async() => {
-    const obtenerTodosAlquileres = await Alquiler.find();
+const Precios = async( resultado, facebookId ) => {
+    const obtenerTodosAlquileres = await Producto.find();
     let listar = 'Los precios de alquileres de sillas y mesas son los siguientes: ';
-    obtenerTodosAlquileres.forEach( alquiler => {
-        if ( alquiler.nombre === 'Silla' ) {
-            listar = listar + `\n * 10 ${alquiler.nombre} a ${alquiler.precio}Bs`;
+    obtenerTodosAlquileres.forEach( pro => {
+        if ( pro.nombre === 'Silla' ) {
+            listar = listar + `\n * 10 ${pro.nombre} a ${pro.precio}Bs`;
         } else {
-            if ( alquiler.forma === 'Rectangular' ) {
-                listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio} Bs`;
+            if ( pro.forma === 'Rectangular' ) {
+                listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
             } else {
-                listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio} Bs`;
+                listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
             }
         }
     });
@@ -72,7 +90,7 @@ const Precios = async() => {
     return listar;
 }
 const Sillas = async() => {
-    const obtenerSilla = await Alquiler.find();
+    const obtenerSilla = await Producto.find();
     let listar = '';
     obtenerSilla.forEach( alquiler => {
         if ( alquiler.nombre === 'Silla' ) {
@@ -82,7 +100,7 @@ const Sillas = async() => {
     return listar;
 }
 const Mesas = async() => {
-    const obtenerMesas = await Alquiler.find();
+    const obtenerMesas = await Producto.find();
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
         if ( alquiler.forma === 'Rectangular' || alquiler.forma === 'Circular' ) {

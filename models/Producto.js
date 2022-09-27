@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const AlquilerSchema = Schema({
+const ProductoSchema = Schema({
     nombre: {
         type: String,
         required: true,
@@ -13,7 +13,12 @@ const AlquilerSchema = Schema({
     },
     forma: {
         type: String
+    },
+    imagen: {
+        type: String,
+        url: String,
+        public_id: String
     }
 });
 
-module.exports = model( 'Alquiler', AlquilerSchema );
+module.exports = model( 'Producto', ProductoSchema );

@@ -1,27 +1,27 @@
 const { Schema, model } = require('mongoose');
-const generaIdRandom = require('../helpers/generar');
 
-const ClienteSchema = Schema({
+const PromocionSchema = Schema({
     nombre: {
         type: String,
         required: true,
         allowNull: false
     },
-    celular: {
+    precio: {
         type: String,
         allowNull: true,
         unique: true
     },
-    token: {
+    descripcion: {
         type: String,
-        default: generaIdRandom()
+        required: true,
+        allowNull: false
     },
-    facebookId: {
-        allowNull: false,
-        type: String
+    estado: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true
 });
 
-module.exports = model( 'Cliente', ClienteSchema );
+module.exports = model( 'Promocion', PromocionSchema );
