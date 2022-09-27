@@ -53,13 +53,14 @@ const Promociones = async( resultado ) => {
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
     console.log('mesa cuadrada');
-    const cliente = await Cliente.findOne({ facebookId });
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
+    const cliente = await Cliente.findOne({ facebookId });
     console.log(cliente);
     console.log(producto);
     console.log("facebook id" + facebookId);
     if ( cliente && producto ) {
-        await Consulta({ producto, cliente });
+        console.log('entro aqui');
+        await Consulta.create({ producto, cliente });
     }
     return resultado.fulfillmentText;
 }
