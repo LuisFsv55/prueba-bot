@@ -119,7 +119,7 @@ const PedirNombreCelular = async( resultado, facebookId ) => {
         }
         console.log('------- Cliente creado -------' + Cliente)
     } catch (error) {
-        console.log('Error al insertar en la db: ' + e);
+        console.log('Error al insertar en la db: ' + error);
     }
     return resultado.fulfillmentText;
 }
