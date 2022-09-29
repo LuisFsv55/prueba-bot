@@ -6,7 +6,7 @@ const Consulta = require("../models/Consulta");
 const Valoracion = require("../models/Valoracion");
 const Detalle = require("../models/Detalle");
 const config = require("../config");
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
@@ -190,8 +190,7 @@ const Sucursales = async() => {
 }
 const ApiFacebook = async( facebookId) => {
     const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
-    const resp = await fetch( url );
-    const data = await resp.json();
+    const { data } = await axios.get( url );
     console.log(data);
 }
 const envio = ( resultado, senderId, tipo = 'text' ) => {
