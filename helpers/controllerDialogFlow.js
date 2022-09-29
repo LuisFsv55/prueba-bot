@@ -73,13 +73,13 @@ const valor = async( resultado, facebookId ) => {
 }
 // TODO: Unir las 2 tablas de productos y promociones
 const Promociones = async( resultado ) => {
-    const promoPrueba = await Detalle.find().populate('producto').populate('promocion', 'nombre');
-    console.log(promoPrueba);
-    let strPromos = `Las promociones de este ${ Date.now() }: \n`;
-    promoDb.forEach( (pro, index) => {
-        strPromos = strPromos + `\n *⌛ ${ index + 1 } ${pro.descripcion}`;
+    const detalle = await Detalle.find().populate('producto').populate('promocion');
+    console.log(detalle)
+    let strPromos = `Las promociones de este mes: \n`;
+    detalle.forEach( (pro, index) => {
+        strPromos = strPromos + `\n *⌛ ${ pro.promocion.nombre } de ${ pro.promocion.cantidadMesas } ${ pro.producto.nombre }s ${ pro.producto.forma } con ${ pro.promocion.cantidadSillas } a ${ pro.promocion.descuento }`;
     });
-    strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego`;
+    strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego?`;
     return strPromos;
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
