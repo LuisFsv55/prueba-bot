@@ -3,13 +3,11 @@ const { Schema, model } = require('mongoose');
 const ProductoSchema = Schema({
     nombre: {
         type: String,
-        required: true,
         allowNull: false
     },
     precio: {
         type: String,
-        allowNull: true,
-        unique: true
+        allowNull: true
     },
     forma: {
         type: String

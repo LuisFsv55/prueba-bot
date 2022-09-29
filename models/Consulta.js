@@ -5,9 +5,9 @@ const ConsultaSchema = Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Producto'
     },
-    cliente: {
+    prospecto: {
         type: mongoose.Types.ObjectId,
-        ref: 'Cliente'
+        ref: 'Prospecto'
     }
 }, {
     timestamps: true

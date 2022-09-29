@@ -3,18 +3,11 @@ const { Schema, model } = require('mongoose');
 const PromocionSchema = Schema({
     nombre: {
         type: String,
-        required: true,
-        allowNull: false
-    },
-    precio: {
-        type: String,
-        allowNull: true,
-        unique: true
+        allowNull: true
     },
     descripcion: {
         type: String,
-        required: true,
-        allowNull: false
+        allowNull: true
     },
     estado: {
         type: Boolean,

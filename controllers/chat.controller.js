@@ -8,20 +8,21 @@ const Sucursal = require('../models/Sucursal');
 const Promocion = require('../models/Promocion');
 
 const test = ( req, res ) => {
-    const promocion = new Promocion( { nombre: 'Sept2022', precio: '120', descripcion: '1. Paquete de 5 mesas cuadradas con 20 sillas' } );
-    const promocion1 = new Promocion( { nombre: 'Sept2022', precio: '200', descripcion: '2. Paquete de 5 mesas redonas con 40 sillas' } );
+    // const promocion = new Promocion( { nombre: 'Oct2022', precio: '300', descripcion: '1. Paquete de 10 mesas cuadradas con 20 sillas' } );
+    // promocion.save();
+    // const promocion1 = new Promocion( { nombre: 'Sept2022', precio: '200', descripcion: '2. Paquete de 5 mesas redonas con 40 sillas' } );
     // const sucursal = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: '6 de Mayo', calle: 'Bolivia', numero: '80' } );
     // const sucursal1 = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: 'Miraflores', calle: 'Naciones Unidas', numero: '10' } );
     // const producto1 = new Producto( { nombre: 'Mesa', precio: '100', forma: 'Redonda' } );
-    const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada' } );
-    const producto3 = new Producto( { nombre: 'Silla', precio: '50' } );
-    // sucursal.save();
-    // sucursal1.save();
-    // producto1.save();
-    producto2.save();
-    producto3.save();
-    promocion.save();
-    promocion1.save();
+    // const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada' } );
+    // const producto3 = new Producto( { nombre: 'Silla', precio: '50' } );
+    // sucursal.save();||
+    // sucursal1.save();|
+    // producto1.save(); 
+    // producto2.save();   
+    // producto3.save();
+    // promocion.save();|
+    // promocion1.save();|
     res.send('Bot prueba');
     console.log('Bot prueba');
 }

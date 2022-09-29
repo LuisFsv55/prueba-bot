@@ -70,11 +70,16 @@ const valor = async( resultado, facebookId ) => {
     }
     return resultado.fulfillmentText;
 }
+// TODO: Unir las 2 tablas de productos y promociones
 const Promociones = async( resultado ) => {
+    let mes = new Date();
+    const producto1 = await Producto.findOne();
+    const producto2 = await Producto.findOne();
+    const producto3 = await Producto.findOne();
     const promoDb = await Promocion.find();
-    let strPromos = 'Las promociones de este mes: \n';
+    let strPromos = `Las promociones de este ${ mes.getMonth() }: \n`;
     promoDb.forEach( (pro, index) => {
-        strPromos = strPromos + `\n *⌛ ${ index }. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
+        strPromos = strPromos + `\n *⌛ ${ index + 1 }. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
     });
     strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego`;
     return strPromos;
