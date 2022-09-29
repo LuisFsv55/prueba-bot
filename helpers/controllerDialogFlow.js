@@ -88,31 +88,31 @@ const Promociones = async( resultado ) => {
 const formaMesaCuadrada = async( resultado, facebookId ) => {
     console.log('mesa cuadrada');
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
-    const cliente = await Cliente.findOne({ facebookId });
-    console.log(cliente);
+    const prospecto = await Prospecto.findOne({ facebookId });
+    // console.log(cliente);
     console.log(producto);
     console.log("facebook id" + facebookId);
-    if ( cliente && producto ) {
+    if ( prospecto && producto ) {
         console.log('entro aqui');
-        await Consulta.create({ producto, cliente });
+        await Consulta.create({ producto, prospecto });
     }
     return resultado.fulfillmentText;
 }
 const formaMesaCircular = async( resultado, facebookId ) => {
     console.log('mesa cuadrada');
     const producto = await Producto.findOne({ forma: 'Redonda' });
-    const cliente = await Cliente.findOne({ facebookId });
-    if ( cliente && producto ) {
+    const prospecto = await Prospecto.findOne({ facebookId });
+    if ( prospecto && producto ) {
         console.log('entro aqui');
-        await Consulta.create({ producto, cliente });
+        await Consulta.create({ producto, prospecto });
     }
     return resultado.fulfillmentText;
 }
 const PedidoSillas = async( resultado, facebookId ) => {
     const producto = await Producto.findOne({ nombre: 'Silla' });
-    const cliente = await Cliente.findOne({ facebookId });
-    if ( cliente && producto ) {
-        await Consulta.create({ producto, cliente });
+    const prospecto = await Prospecto.findOne({ facebookId });
+    if ( prospecto && producto ) {
+        await Consulta.create({ producto, prospecto });
     }
     return resultado.fulfillmentText;
 }
