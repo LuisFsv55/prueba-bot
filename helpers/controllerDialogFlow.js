@@ -6,6 +6,7 @@ const Consulta = require("../models/Consulta");
 const Valoracion = require("../models/Valoracion");
 const Detalle = require("../models/Detalle");
 const config = require("../config");
+const fetch = require('node-fetch');
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
