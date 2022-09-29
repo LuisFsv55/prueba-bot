@@ -5,10 +5,12 @@ const Producto = require("../models/Producto");
 const Consulta = require("../models/Consulta");
 const Valoracion = require("../models/Valoracion");
 const Detalle = require("../models/Detalle");
+const config = require("../config");
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
+    ApiFacebook( senderId );
     switch (resultado.intent.displayName) {
         case 'Promocion': 
             respuesta = await Promociones( resultado.fulfillmentText );
@@ -71,13 +73,12 @@ const valor = async( resultado, facebookId ) => {
     }
     return resultado.fulfillmentText;
 }
-// TODO: Unir las 2 tablas de productos y promociones
 const Promociones = async( resultado ) => {
     const detalle = await Detalle.find().populate('producto').populate('promocion');
-    console.log(detalle)
+    // console.log(detalle)
     let strPromos = `Las promociones de este mes: \n`;
     detalle.forEach( (pro, index) => {
-        strPromos = strPromos + `\n *⌛ ${ pro.promocion.nombre } de ${ pro.promocion.cantidadMesas } ${ pro.producto.nombre }s ${ pro.producto.forma } con ${ pro.promocion.cantidadSillas } a ${ pro.promocion.descuento }`;
+        strPromos = strPromos + `\n *⌛ ${ pro.promocion.nombre } de ${ pro.promocion.cantidadMesas } ${ pro.producto.nombre }s ${ pro.producto.forma } con ${ pro.promocion.cantidadSillas } Sillas a ${ pro.promocion.descuento }Bs`;
     });
     strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego?`;
     return strPromos;
@@ -185,6 +186,12 @@ const Sucursales = async() => {
          
     });
     return listar;
+}
+const ApiFacebook = async( facebookId) => {
+    const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
+    const resp = await fetch( url );
+    const data = await resp.json();
+    console.log(data);
 }
 const envio = ( resultado, senderId, tipo = 'text' ) => {
     let peticion = {};
