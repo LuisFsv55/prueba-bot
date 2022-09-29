@@ -9,16 +9,9 @@ const ProspectoSchema = Schema({
     imagen: {
         type: String
     },
-    correo: {
-        type: String,
-        allowNull: true
-    },
     token: {
         type: String,
         default: generaIdRandom()
-    },
-    celular: {
-        type: String
     },
     facebookId: {
         allowNull: true,

@@ -62,10 +62,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
 }
 const valor = async( resultado, facebookId ) => {
     try {
-        console.log(resultado.queryText);
-        console.log(resultado.outputContexts);
+        // console.log(resultado.queryText);
+        // console.log(resultado.outputContexts);
         const comentario = resultado?.queryText;
-        console.log("comentario" + comentario)
+        // console.log("comentario" + comentario)
         const cliente = await Cliente.findOne({ facebookId });
         const registrar = new Valoracion( { opinion: comentario, cliente  } );
         registrar.save();
@@ -78,7 +78,7 @@ const valor = async( resultado, facebookId ) => {
 const Promociones = async( resultado ) => {
     const detalle = await Detalle.find().populate('producto').populate('promocion');
     // console.log(detalle)
-    let strPromos = `Las promociones de este mes: \n`;
+    let strPromos = `Las promociones de este mes:`;
     detalle.forEach( (pro, index) => {
         strPromos = strPromos + `\n *⌛ ${ pro.promocion.nombre } de ${ pro.promocion.cantidadMesas } ${ pro.producto.nombre }s ${ pro.producto.forma } con ${ pro.promocion.cantidadSillas } Sillas a ${ pro.promocion.descuento }Bs`;
     });
@@ -86,12 +86,12 @@ const Promociones = async( resultado ) => {
     return strPromos;
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
-    console.log('mesa cuadrada');
+    // console.log('mesa cuadrada');
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
     const prospecto = await Prospecto.findOne({ facebookId });
     // console.log(cliente);
-    console.log(producto);
-    console.log("facebook id" + facebookId);
+    // console.log(producto);
+    // console.log("facebook id" + facebookId);
     if ( prospecto && producto ) {
         console.log('entro aqui');
         await Consulta.create({ producto, prospecto });
@@ -212,5 +212,20 @@ const envio = ( resultado, senderId, tipo = 'text' ) => {
     }
     return peticion;
 }
-
+const sendImage = async() => {
+    let messageData = {
+        recipient: {
+            id: recipientId,
+        },
+    message: {
+            attachment: {
+            type: "image",
+            payload: {
+                url: imageUrl,
+            },
+            },
+        },
+    };
+    await callSendAPI(messageData);
+}
 module.exports = { controllerDialogFlow }

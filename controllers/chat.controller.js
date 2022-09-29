@@ -17,30 +17,30 @@ const test = ( req, res ) => {
         producto: '633510fe9d69399b3deb64b5', 
         promocion: '6335149c808635932402be67'
     } );
-    detalle1.save()
+    // detalle1.save()
     detalle2.save()
     // promocion.save();
-    // const promocion1 = new Promocion( { 
-        // nombre: 'Paquete 1', 
-        // descuento: '120', 
-        // descripcion: 'Descuento del 10% por la compra del paquete',
-        // cantidadSillas: '20',
-        // cantidadMesas: '5'
-    // } );
-    // const promocion2 = new Promocion( { 
-        // nombre: 'Paquete 2', 
-        // descuento: '200', 
-        // descripcion: 'Descuento del 15% por la compra del paquete',
-        // cantidadSillas: '10',
-        // cantidadMesas: '5'
-    // } );
+    const promocion1 = new Promocion( { 
+        nombre: 'Paquete 1', 
+        descuento: '120', 
+        descripcion: 'Descuento del 10% por la compra del paquete',
+        cantidadSillas: '20',
+        cantidadMesas: '5'
+    } );
+    const promocion2 = new Promocion( { 
+        nombre: 'Paquete 2', 
+        descuento: '200', 
+        descripcion: 'Descuento del 15% por la compra del paquete',
+        cantidadSillas: '10',
+        cantidadMesas: '5'
+    } );
     // promocion1.save();
     // promocion2.save();
     // const sucursal = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: '6 de Mayo', calle: 'Bolivia', numero: '80' } );
     // const sucursal1 = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: 'Miraflores', calle: 'Naciones Unidas', numero: '10' } );
-    // const producto1 = new Producto( { nombre: 'Mesa', precio: '100', forma: 'Redonda' } );
-    // const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada' } );
-    // const producto3 = new Producto( { nombre: 'Silla', precio: '50' } );
+    const producto1 = new Producto( { nombre: 'Mesa', precio: '100', forma: 'Redonda' } );
+    const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada' } );
+    const producto3 = new Producto( { nombre: 'Silla', precio: '50' } );
     // sucursal.save();
     // sucursal1.save();
     // producto1.save(); 

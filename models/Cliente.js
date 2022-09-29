@@ -6,10 +6,6 @@ const ClienteSchema = Schema({
         type: String,
         allowNull: false
     },
-    correo: {
-        type: String,
-        allowNull: true
-    },
     celular: {
         type: String,
         allowNull: true
@@ -24,9 +20,6 @@ const ClienteSchema = Schema({
     },
     facebookId: {
         allowNull: false,
-        type: String
-    },
-    tipo: {
         type: String
     }
 }, {

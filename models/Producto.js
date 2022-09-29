@@ -11,11 +11,6 @@ const ProductoSchema = Schema({
     },
     forma: {
         type: String
-    },
-    imagen: {
-        type: String,
-        url: String,
-        public_id: String
     }
 });
 
