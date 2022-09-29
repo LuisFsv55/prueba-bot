@@ -73,9 +73,7 @@ const valor = async( resultado, facebookId ) => {
 }
 // TODO: Unir las 2 tablas de productos y promociones
 const Promociones = async( resultado ) => {
-    const promoDb = await Detalle.find();
-    console.log(promoDb);
-    const promoPrueba = await Detalle.find().populate('producto', 'nombre');
+    const promoPrueba = await Detalle.find().populate('producto').populate('promocion', 'nombre');
     console.log(promoPrueba);
     let strPromos = `Las promociones de este ${ Date.now() }: \n`;
     promoDb.forEach( (pro, index) => {
