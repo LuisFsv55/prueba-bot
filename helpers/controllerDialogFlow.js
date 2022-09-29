@@ -4,6 +4,7 @@ const Promocion = require("../models/Promocion");
 const Producto = require("../models/Producto");
 const Consulta = require("../models/Consulta");
 const Valoracion = require("../models/Valoracion");
+const Detalle = require("../models/Detalle");
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
@@ -72,14 +73,13 @@ const valor = async( resultado, facebookId ) => {
 }
 // TODO: Unir las 2 tablas de productos y promociones
 const Promociones = async( resultado ) => {
-    let mes = new Date();
-    const producto1 = await Producto.findOne();
-    const producto2 = await Producto.findOne();
-    const producto3 = await Producto.findOne();
-    const promoDb = await Promocion.find();
-    let strPromos = `Las promociones de este ${ mes.getMonth() }: \n`;
+    const promoDb = await Detalle.find();
+    console.log(promoDb);
+    const promoPrueba = await Detalle.find().populate('producto', 'nombre');
+    console.log(promoPrueba);
+    let strPromos = `Las promociones de este ${ Date.now() }: \n`;
     promoDb.forEach( (pro, index) => {
-        strPromos = strPromos + `\n *⌛ ${ index + 1 }. ${pro.descripcion} a un precio de ${ pro.precio } Bs`;
+        strPromos = strPromos + `\n *⌛ ${ index + 1 } ${pro.descripcion}`;
     });
     strPromos = strPromos + `\n ¿Quisiera un pedido de algun juego`;
     return strPromos;

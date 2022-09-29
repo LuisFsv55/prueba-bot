@@ -8,12 +8,6 @@ const DetalleSchema = Schema({
     promocion: {
         type: mongoose.Types.ObjectId,
         ref: 'Promocion'
-    },
-    fechaInicio: {
-        type: Date
-    },
-    fechaFin: {
-        type: Date
     }
 }, {
     timestamps: true
