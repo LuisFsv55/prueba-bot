@@ -5,6 +5,7 @@ const Producto = require("../models/Producto");
 const Consulta = require("../models/Consulta");
 const Valoracion = require("../models/Valoracion");
 const Detalle = require("../models/Detalle");
+const Prospecto = require("../models/Prospecto");
 const config = require("../config");
 const axios = require('axios');
 
@@ -117,21 +118,16 @@ const PedidoSillas = async( resultado, facebookId ) => {
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
-        // console.log(resultado);
-        // console.log(resultado.parameters);
-        // console.log(resultado.parameters.fields);
         console.log(resultado.outputContexts[0].parameters.fields);
         console.log(resultado.outputContexts[1].parameters.fields);
         const nombre = resultado?.outputContexts[1].parameters.fields.any.stringValue;
-        // console.log("nombre"+ nombre)
         const celular = resultado?.outputContexts[1].parameters.fields.number.numberValue;
-        // console.log("celular"+ celular)
-        const cliente = await Cliente.findOne({ facebookId: `${facebookId}` })
-        // console.log("cliente" + cliente)
+        const cliente = await Cliente.findOne({ facebookId: `${facebookId}` });
+        const usuario = await Prospecto.findOne({ facebookId });
         if ( cliente ) {
-            await cliente.updateOne( { nombre, celular, facebookId } );
+            await cliente.updateOne( { nombre, celular } );
         } else {
-            const registrar = new Cliente( { nombre, celular, facebookId  } );
+            const registrar = new Cliente( { nombre, celular, facebookId, idPros: usuario._id  } );
             registrar.save();
         }
         console.log('------- Cliente creado -------' + Cliente)
@@ -188,10 +184,17 @@ const Sucursales = async() => {
     });
     return listar;
 }
-const ApiFacebook = async( facebookId) => {
+const ApiFacebook = async( facebookId ) => {
     const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
     const { data } = await axios.get( url );
-    console.log(data);
+    const usuario = await Prospecto.findOne({ facebookId });
+    if ( !usuario ) {
+        await Prospecto.create({ 
+            nombre: data.first_name + data.last_name,
+            imagen: data.profile_pic,
+            facebookId
+        });
+    }
 }
 const envio = ( resultado, senderId, tipo = 'text' ) => {
     let peticion = {};
