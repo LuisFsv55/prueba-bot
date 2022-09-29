@@ -143,7 +143,7 @@ const Precios = async( resultado, facebookId ) => {
         if ( pro.nombre === 'Silla' ) {
             listar = listar + `\n * 10 ${pro.nombre} a ${pro.precio}Bs`;
         } else {
-            if ( pro.forma === 'Rectangular' ) {
+            if ( pro.forma === 'Cuadrada' ) {
                 listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
             } else {
                 listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
@@ -167,7 +167,7 @@ const Mesas = async() => {
     const obtenerMesas = await Producto.find();
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
-        if ( alquiler.forma === 'Rectangular' || alquiler.forma === 'Circular' ) {
+        if ( alquiler.forma === 'Cuadrada' || alquiler.forma === 'Redonda' ) {
             listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}`;
         }
     });
@@ -211,21 +211,5 @@ const envio = ( resultado, senderId, tipo = 'text' ) => {
             break;
     }
     return peticion;
-}
-const sendImage = async() => {
-    let messageData = {
-        recipient: {
-            id: recipientId,
-        },
-    message: {
-            attachment: {
-            type: "image",
-            payload: {
-                url: imageUrl,
-            },
-            },
-        },
-    };
-    await callSendAPI(messageData);
 }
 module.exports = { controllerDialogFlow }
