@@ -8,6 +8,7 @@ const Detalle = require("../models/Detalle");
 const Prospecto = require("../models/Prospecto");
 const config = require("../config");
 const axios = require('axios');
+const Ingreso = require("../models/Ingreso");
 
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
@@ -158,7 +159,7 @@ const Sillas = async() => {
     let listar = '';
     obtenerSilla.forEach( alquiler => {
         if ( alquiler.nombre === 'Silla' ) {
-            listar = listar + `\n 🪑Las sillas están a un precio de: 10 sillas a ${alquiler.precio}Bs. \n¿Quisiera realizar un pedido?`;
+            listar = listar + `\n 🪑Las sillas están a un precio de \n: 10 sillas a ${alquiler.precio}Bs. \n¿Quisiera realizar un pedido?`;
         }
     });
     return listar;
@@ -168,7 +169,7 @@ const Mesas = async() => {
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
         if ( alquiler.forma === 'Cuadrada' || alquiler.forma === 'Redonda' ) {
-            listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}`;
+            listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}Bs`;
         }
     });
     listar = listar + '\n ¿Quisiera realizar un pedido?';
@@ -194,6 +195,15 @@ const ApiFacebook = async( facebookId ) => {
             imagen: data.profile_pic,
             facebookId
         });
+    } else {
+        const entrada = await Ingreso.findOne({
+            prospecto: usuario._id,
+            entrada: new Date().toLocaleDateString()
+        })
+        if ( !entrada ) {
+            const ingresoUsuario = new Ingreso({ prospecto: usuario._id, entrada: new Date().toLocaleDateString() });
+            ingresoUsuario.save();
+        }
     }
 }
 const envio = ( resultado, senderId, tipo = 'text' ) => {
