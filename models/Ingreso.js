@@ -6,11 +6,8 @@ const IngresoSchema = Schema({
         ref: 'Prospecto'
     },
     entrada: {
-        type: Date,
-        defaultValue: Date.now()
+        type: String
     }
-}, {
-    timestamps: true
 });
 
 module.exports = model( 'Ingreso', IngresoSchema );
