@@ -154,12 +154,7 @@ const Precios = async( resultado, facebookId ) => {
     listar = listar + `\n ¿Quisiera realizar un pedido de mesas o sillas?`;
     return listar;
 }
-const Sillas = async( resultado, facebookId ) => {
-    const producto = await Producto.findOne({ nombre: 'Silla' });
-    const prospecto = await Prospecto.findOne({ facebookId });
-    if ( prospecto && producto ) {
-        await Consulta.create({ producto, prospecto });
-    }
+const Sillas = async() => {
     const obtenerSilla = await Producto.find();
     let listar = '';
     obtenerSilla.forEach( alquiler => {
