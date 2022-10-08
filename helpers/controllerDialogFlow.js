@@ -67,6 +67,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
 }
 const Saludo = ( resultado, facebookId ) => {
     const prospecto = Prospecto.findOne({ facebookId });
+    console.log(prospecto)
     let listar = ''
     if ( prospecto ) {
         listar = `Hola Buenas ${ prospecto.nombre } ¿Usted necesita información o saber detalles de alquiler de mesas y silla?`
