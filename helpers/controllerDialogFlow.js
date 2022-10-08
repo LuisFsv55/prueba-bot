@@ -15,6 +15,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     let respuesta;
     ApiFacebook( senderId );
     switch (resultado.intent.displayName) {
+        case 'Saludo':
+            respuesta = await Saludo( resultado.fulfillmentText );
+            peticion = await envio( respuesta, senderId )
+            break;
         case 'Promocion': 
             respuesta = await Promociones( resultado.fulfillmentText );
             peticion = await envio( respuesta, senderId )
@@ -60,6 +64,16 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             break;
     }
     return peticion;
+}
+const Saludo = ( resultado, facebookId ) => {
+    const prospecto = Prospecto.findOne({ facebookId });
+    let listar = ''
+    if ( prospecto ) {
+        listar = `Hola Buenas ${ prospecto.nombre } ¿Usted necesita información o saber detalles de alquiler de mesas y silla?`
+    } else {
+        listar = "Hola Buenas ¿Usted necesita información o saber detalles de alquiler de mesas y silla?";
+    }
+    return listar;
 }
 const valor = async( resultado, facebookId ) => {
     try {
@@ -191,7 +205,7 @@ const ApiFacebook = async( facebookId ) => {
     const usuario = await Prospecto.findOne({ facebookId });
     if ( !usuario ) {
         await Prospecto.create({ 
-            nombre: data.first_name + data.last_name,
+            nombre: data.first_name + " "  + data.last_name,
             imagen: data.profile_pic,
             facebookId
         });
