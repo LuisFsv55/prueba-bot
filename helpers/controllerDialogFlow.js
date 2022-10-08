@@ -32,7 +32,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             peticion = await envio( respuesta, senderId )
             break;
         case 'Mesas':
-            respuesta = await Mesas( resultado.fulfillmentText );
+            respuesta = await Mesas( resultado, senderId );
             peticion = await envio( respuesta, senderId )
             break;
         case 'Precios':
@@ -184,7 +184,10 @@ const Sillas = async( resultado, facebookId ) => {
     }
     return listar;
 }
-const Mesas = async() => {
+const Mesas = async(resultado, facebookId) => {
+    const producto = await Producto.findOne({ forma: 'Cuadrada' });
+    const producto1 = await Producto.findOne({ forma: 'Redonda' });
+    const prospecto = await Prospecto.findOne({ facebookId });
     const obtenerMesas = await Producto.find();
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
@@ -192,6 +195,10 @@ const Mesas = async() => {
             listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}Bs`;
         }
     });
+    if ( prospecto && producto ) {
+        await Consulta.create({ producto, prospecto });
+        await Consulta.create({ producto1, prospecto });
+    }
     listar = listar + '\n ¿Quisiera realizar un pedido?';
     return listar;
 }
