@@ -65,8 +65,8 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     }
     return peticion;
 }
-const Saludo = ( resultado, facebookId ) => {
-    const prospecto = Prospecto.findOne({ facebookId });
+const Saludo = async( resultado, facebookId ) => {
+    const prospecto = await Prospecto.findOne({ facebookId });
     console.log(prospecto)
     let listar = ''
     if ( prospecto ) {
@@ -171,12 +171,17 @@ const Precios = async( resultado, facebookId ) => {
 }
 const Sillas = async() => {
     const obtenerSilla = await Producto.find();
+    const producto = await Producto.findOne({ nombre: 'Silla' });
+    const prospecto = await Prospecto.findOne({ facebookId });
     let listar = '';
     obtenerSilla.forEach( alquiler => {
         if ( alquiler.nombre === 'Silla' ) {
             listar = listar + `\n 🪑Las sillas están a un precio de: \n 10 sillas a ${alquiler.precio}Bs. \n¿Quisiera realizar un pedido?`;
         }
     });
+    if ( producto && prospecto ) {
+        await Consulta.create({ producto, prospecto });
+    }
     return listar;
 }
 const Mesas = async() => {
