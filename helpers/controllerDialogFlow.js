@@ -67,7 +67,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
 }
 const Saludo = async( resultado, facebookId ) => {
     const prospecto = await Prospecto.findOne({ facebookId });
-    console.log(prospecto)
+    console.log("prospecto" + prospecto)
     let listar = ''
     if ( prospecto ) {
         listar = `Hola Buenas ${ prospecto.nombre } ¿Usted necesita información o saber detalles de alquiler de mesas y silla?`
@@ -169,7 +169,7 @@ const Precios = async( resultado, facebookId ) => {
     listar = listar + `\n ¿Quisiera realizar un pedido de mesas o sillas?`;
     return listar;
 }
-const Sillas = async() => {
+const Sillas = async( resultado, facebookId ) => {
     const obtenerSilla = await Producto.find();
     const producto = await Producto.findOne({ nombre: 'Silla' });
     const prospecto = await Prospecto.findOne({ facebookId });
