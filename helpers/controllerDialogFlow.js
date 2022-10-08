@@ -16,7 +16,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     ApiFacebook( senderId );
     switch (resultado.intent.displayName) {
         case 'Saludo':
-            respuesta = await Saludo( resultado.fulfillmentText );
+            respuesta = await Saludo( resultado, senderId );
             peticion = await envio( respuesta, senderId )
             break;
         case 'Promocion': 
@@ -28,7 +28,7 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             peticion = await envio( respuesta, senderId )
             break;
         case 'Sillas':
-            respuesta = await Sillas( resultado.fulfillmentText );
+            respuesta = await Sillas( resultado.fulfillmentText, senderId );
             peticion = await envio( respuesta, senderId )
             break;
         case 'Mesas':
