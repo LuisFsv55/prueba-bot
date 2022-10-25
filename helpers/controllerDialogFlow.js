@@ -125,14 +125,11 @@ const formaMesaCircular = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const PedidoSillas = async( resultado, facebookId ) => {
-    let imagenSilla = [];
     const producto = await Producto.findOne({ nombre: 'Silla' });
-    imagenSilla.push( { url: producto.imagen } )
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
         await Consulta.create({ producto, prospecto });
     }
-    await envioImagen( imagenesMostrar, facebookId );
     return resultado.fulfillmentText;
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
@@ -210,14 +207,17 @@ const Sillas = async( resultado, facebookId ) => {
     const producto = await Producto.findOne({ nombre: 'Silla' });
     const prospecto = await Prospecto.findOne({ facebookId });
     let listar = '';
+    let imagenSilla = [];
     obtenerSilla.forEach( alquiler => {
         if ( alquiler.nombre === 'Silla' ) {
+            imagenSilla.push( { url: alquiler.imagen } )
             listar = listar + `\n 🪑Las sillas están a un precio de: \n 10 sillas a ${alquiler.precio}Bs. \n¿Quisiera realizar un pedido?`;
         }
     });
     if ( producto && prospecto ) {
         await Consulta.create({ producto, prospecto });
     }
+    await envioImagen( imagenesMostrar, facebookId );
     return listar;
 }
 const Mesas = async(resultado, facebookId) => {
