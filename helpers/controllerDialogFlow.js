@@ -59,6 +59,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             respuesta = await valor( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
+        case 'cantidadSillas':
+            respuesta = await carrito( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
         default:
             peticion = await envio( resultado.fulfillmentText, senderId );
             break;
@@ -241,6 +245,14 @@ const Sucursales = async() => {
     });
     return listar;
 }
+const carrito = async( resultado, facebookId ) => {
+    console.log('---------------Inicio carrito --------------');
+    console.log(resultado.outputContexts[0].parameters.fields);
+    console.log(resultado.outputContexts[1].parameters.fields);
+    console.log(resultado.outputContexts[2].parameters.fields);
+    console.log('---------------Fin carrito --------------');
+    return resultado.fulfillmentText;
+};
 const ApiFacebook = async( facebookId ) => {
     const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
     const { data } = await axios.get( url );
