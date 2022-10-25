@@ -125,11 +125,14 @@ const formaMesaCircular = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const PedidoSillas = async( resultado, facebookId ) => {
+    let imagenSilla = [];
     const producto = await Producto.findOne({ nombre: 'Silla' });
+    imagenSilla.push( { url: producto.imagen } )
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
         await Consulta.create({ producto, prospecto });
     }
+    await envioImagen( imagenesMostrar, facebookId );
     return resultado.fulfillmentText;
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
@@ -245,6 +248,9 @@ const Sucursales = async() => {
     });
     return listar;
 }
+// 2022-10-25T15:08:50.450053+00:00 app[web.1]: { numberValue: 10, kind: 'numberValue' }
+// 
+// 2022-10-25T15:08:50.450098+00:00 app[web.1]: { stringValue: 'silla', kind: 'stringValue' }
 const carrito = async( resultado, facebookId ) => {
     console.log('---------------Inicio carrito --------------');
     console.log(resultado.outputContexts[2].parameters.fields);
