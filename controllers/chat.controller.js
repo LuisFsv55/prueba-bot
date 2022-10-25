@@ -39,14 +39,14 @@ const test = ( req, res ) => {
     // promocion2.save();
     // const sucursal = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: '6 de Mayo', calle: 'Bolivia', numero: '80' } );
     // const sucursal1 = new Sucursal( { departamento: 'Santa Cruz', municipio: 'El Torno', barrio: 'Miraflores', calle: 'Naciones Unidas', numero: '10' } );
-    const producto1 = new Producto( { nombre: 'Mesa', precio: '100', forma: 'Redonda', imagen: 'https://st.depositphotos.com/1177973/2679/i/600/depositphotos_26798097-stock-photo-beautiful-table-setting-for-breakfast.jpg' } );
-    const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada', imagen: 'https://i.pinimg.com/originals/52/32/b5/5232b5e71144a2bf9e4ce46300f257b7.png' } );
-    const producto3 = new Producto( { nombre: 'Silla', precio: '50', imagen: 'https://images.unsplash.com/photo-1604798324483-1e183aab8cf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80.jpg' } );
+    // const producto1 = new Producto( { nombre: 'Mesa', precio: '100', forma: 'Redonda', imagen: 'https://st.depositphotos.com/1177973/2679/i/600/depositphotos_26798097-stock-photo-beautiful-table-setting-for-breakfast.jpg' } );
+    // const producto2 = new Producto( { nombre: 'Mesa', precio: '70', forma: 'Cuadrada', imagen: 'https://i.pinimg.com/originals/52/32/b5/5232b5e71144a2bf9e4ce46300f257b7.png' } );
+    // const producto3 = new Producto( { nombre: 'Silla', precio: '50', imagen: 'https://images.unsplash.com/photo-1604798324483-1e183aab8cf1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80.jpg' } );
     // sucursal.save();
     // sucursal1.save();
-    producto1.save(); 
-    producto2.save();   
-    producto3.save();
+    // producto1.save(); 
+    // producto2.save();   
+    // producto3.save();
     // promocion.save();|
     // promocion1.save();|
     res.send('Bot prueba');

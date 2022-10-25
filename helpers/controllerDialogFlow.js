@@ -153,7 +153,8 @@ const Precios = async( resultado, facebookId ) => {
     const obtenerTodosAlquileres = await Producto.find();
     let listar = 'Los precios de alquileres de sillas y mesas son los siguientes: ';
     obtenerTodosAlquileres.forEach( pro => {
-        console.log("Productos: " + pro);
+        // console.log("Productos: " + pro);
+        imagenesMostrar.push({ url: pro.imagen });
         if ( pro.nombre === 'Silla' ) {
             listar = listar + `\n * 10 ${pro.nombre} a ${pro.precio}Bs`;
         } else {
@@ -165,7 +166,37 @@ const Precios = async( resultado, facebookId ) => {
         }
     });
     listar = listar + `\n ¿Quisiera realizar un pedido de mesas o sillas?`;
+    await envioImagen( imagenesMostrar, facebookId );
     return listar;
+}
+const envioImagen = async( imagenes, id ) => {
+    await imagenes.forEach( img => {
+        request({
+            uri: 'https://graph.facebook.com/v14.0/me/messages',
+            qs: { access_token: config.FB_PAGE_TOKEN },
+            method: 'POST',
+            json: {
+                recipient: {
+                    id
+                },
+                message: {
+                    attachment: {
+                        type: 'image',
+                        payload: {
+                            url: img.url,
+                            is_reusable: true
+                        }
+                    }
+                }
+            }
+        }, (err, res, body) => {
+            if (!err) {
+                console.log('Al fin')
+            } else {
+                console.log('Nada' + err);
+            }
+        })
+    })
 }
 const Sillas = async( resultado, facebookId ) => {
     const obtenerSilla = await Producto.find();
