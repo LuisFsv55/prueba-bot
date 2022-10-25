@@ -247,9 +247,9 @@ const Sucursales = async() => {
 }
 const carrito = async( resultado, facebookId ) => {
     console.log('---------------Inicio carrito --------------');
-    console.log(resultado.outputContexts[0].parameters.fields);
-    console.log(resultado.outputContexts[1].parameters.fields);
     console.log(resultado.outputContexts[2].parameters.fields);
+    console.log(resultado.outputContexts[2].parameters.fields.number);
+    console.log(resultado.outputContexts[2].parameters.fields.Formas);
     console.log('---------------Fin carrito --------------');
     return resultado.fulfillmentText;
 };
