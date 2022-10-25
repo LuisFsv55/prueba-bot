@@ -217,7 +217,7 @@ const Sillas = async( resultado, facebookId ) => {
     if ( producto && prospecto ) {
         await Consulta.create({ producto, prospecto });
     }
-    await envioImagen( imagenesMostrar, facebookId );
+    await envioImagen( imagenSilla, facebookId );
     return listar;
 }
 const Mesas = async(resultado, facebookId) => {
