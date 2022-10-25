@@ -10,9 +10,9 @@ const ClienteSchema = Schema({
         type: String,
         allowNull: true
     },
-    token: {
+    tipo: {
         type: String,
-        default: generaIdRandom()
+        allowNull: true
     },
     idPros: {
         type: mongoose.Types.ObjectId,

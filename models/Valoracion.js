@@ -5,6 +5,15 @@ const ValoracionSchema = Schema({
         type: String,
         allowNull: true
     },
+    estrella: {
+        type: Number
+    },
+    fecha: {
+        type: String
+    },
+    hora: {
+        type: String
+    },
     cliente: {
         type: mongoose.Types.ObjectId,
         ref: 'Cliente'

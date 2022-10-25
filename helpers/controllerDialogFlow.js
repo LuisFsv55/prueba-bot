@@ -102,12 +102,8 @@ const Promociones = async( resultado ) => {
     return strPromos;
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
-    // console.log('mesa cuadrada');
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
     const prospecto = await Prospecto.findOne({ facebookId });
-    // console.log(cliente);
-    // console.log(producto);
-    // console.log("facebook id" + facebookId);
     if ( prospecto && producto ) {
         console.log('entro aqui');
         await Consulta.create({ producto, prospecto });
@@ -153,9 +149,11 @@ const PedirNombreCelular = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const Precios = async( resultado, facebookId ) => {
+    let imagenesMostrar = [];
     const obtenerTodosAlquileres = await Producto.find();
     let listar = 'Los precios de alquileres de sillas y mesas son los siguientes: ';
     obtenerTodosAlquileres.forEach( pro => {
+        console.log("Productos: " + pro);
         if ( pro.nombre === 'Silla' ) {
             listar = listar + `\n * 10 ${pro.nombre} a ${pro.precio}Bs`;
         } else {
@@ -220,7 +218,8 @@ const ApiFacebook = async( facebookId ) => {
         await Prospecto.create({ 
             nombre: data.first_name + " "  + data.last_name,
             imagen: data.profile_pic,
-            facebookId
+            facebookId,
+            estado: 1
         });
     } else {
         const entrada = await Ingreso.findOne({

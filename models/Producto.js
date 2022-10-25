@@ -11,6 +11,9 @@ const ProductoSchema = Schema({
     },
     forma: {
         type: String
+    },
+    imagen: {
+        type: String
     }
 });
 
