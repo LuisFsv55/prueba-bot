@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const emailRegistro = async( datos ) => {
-    const { email, nombre, token } = datos;
+    const { email, token } = datos;
     const transport = nodemailer.createTransport({
         host: "smtp.mailtrap.io",
         port: 2525,
@@ -11,14 +11,14 @@ const emailRegistro = async( datos ) => {
     });
     // Información del email
     const info = await transport.sendMail({
-        from: '"UpTask - Administrador de Proyectos" <cuentas@uptask.com',
+        from: '"Bot - Administrador" <cuentas@test.com',
         to: email,
-        subject: "Uptask - Comprueba tu Cuenta",
-        text: "Comprueba tu cuenta en Uptask",
+        subject: "Bot - Comprueba tu Cuenta",
+        text: "Comprueba tu cuenta en Topicos",
         html: `
-            <p>Hola ${ nombre } Comprueba tu cuenta en uptask</p>
+            <p>Hola Comprueba tu cuenta en bot</p>
             <p>Tu cuenta ya está lista debes confirmar en el enlace: 
-                <a href="${ process.env.FRONT_URL }/confirmar/${ token }">Comprobar tu cuenta </a>
+                <a href="http://localhost:4000/api/usuario/confirmar/${ token }">Comprobar tu cuenta </a>
             </p>
             <p>Si tu no creaste ignora esto </p>
         `

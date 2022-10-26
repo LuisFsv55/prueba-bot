@@ -10,6 +10,7 @@ const getProspecto = async( req, res ) => {
     let i = 0;
     while ( i < total.length ) {
         let inicial = total[i];
+        console.log(inicial.correo);
         if ( inicial.estado === 1 ) {
             let [entrada, numeroVeces, ultimoIngreso] = await Promise.all([
                 Ingreso.find({ prospecto: inicial._id }),
@@ -30,16 +31,17 @@ const getProspecto = async( req, res ) => {
 // =====_____*****_____***** Método POST :: Estado 2 *****_____*****_____*****=====
 const postProspecto = async(req, res) => {
     const { id } = req.params;
-    const { contactar, medio, mensaje, usuarioId } = req.body;
+    const { contactar, medio, mensaje, usuarioId, posicion } = req.body;
     
     try {
         const prospecto = await Prospecto.findOne({ _id: id });
         prospecto.estado = 2;
+        prospecto.posicion = parseInt( posicion );
         prospecto.save();
         const fecha = new Date().toLocaleDateString();
         const hora = new Date().toLocaleTimeString();
-        const usuario = mongoose.Types.ObjectId( usuarioId );
         const idPros = new mongoose.Types.ObjectId( id );
+        const usuario = mongoose.Types.ObjectId( usuarioId );
         // Nuevo contacto
         const cont = new Contacto({ contactar, medio, mensaje, fecha, hora, idPros, usuario });
         cont.save();
@@ -63,6 +65,7 @@ const getProspectoContactar = async( req, res ) => {
                 Contacto.find({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
             ]) 
             let objProspecto = {
+                prospecto: inicial,
                 numeroVeces,
                 fechaUltima
             };

@@ -26,11 +26,10 @@ const registrar = async( req, res ) => {
         await usuario.save();
         await empleado.save();
         // Enviar el email
-        // emailRegistro( {
-        //     email: usuario.email,
-        //     nombre: usuario.nombre,
-        //     token: usuario.token
-        // });
+        emailRegistro( {
+            email: usuario.correo,
+            token: usuario.token
+        });
         res.json({ 
             msg: 'Usuario creado exitosamente, revisa tu correo para confirmar tu cuenta'
         });

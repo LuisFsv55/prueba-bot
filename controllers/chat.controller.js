@@ -11,12 +11,12 @@ const Detalle = require('../models/Detalle');
 const test = ( req, res ) => {
     // console.log( typeof new Date().toLocaleDateString() );
     // const detalle1 = new Detalle( { 
-    //     producto: '633510fe9d69399b3deb64b6', 
-    //     promocion: '6335149c808635932402be66'
+    //     producto: '63574bc9ac4aa241bc5b7336', 
+    //     promocion: '63582a0f0ed23ea51d930dd5'
     // } );
     // const detalle2 = new Detalle( { 
-    //     producto: '633510fe9d69399b3deb64b5', 
-    //     promocion: '6335149c808635932402be67'
+    //     producto: '63574bc9ac4aa241bc5b7337', 
+    //     promocion: '63582a0f0ed23ea51d930dd6'
     // } );
     // detalle1.save()
     // detalle2.save()
@@ -47,8 +47,8 @@ const test = ( req, res ) => {
     // producto1.save(); 
     // producto2.save();   
     // producto3.save();
-    // promocion.save();|
-    // promocion1.save();|
+    // promocion1.save();
+    // promocion2.save();
     res.send('Bot prueba');
     console.log('Bot prueba');
 }

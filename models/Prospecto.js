@@ -25,7 +25,8 @@ const ProspectoSchema = Schema({
         default: 1
     },
     posicion: {
-        type: Number
+        type: Number,
+        default: 1
     }
 }, {
     timestamps: true
