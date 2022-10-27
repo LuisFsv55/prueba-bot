@@ -1,3 +1,4 @@
+const { request, response } = require('express');
 const { default: mongoose } = require('mongoose');
 const Contacto = require('../models/Contacto');
 const Ingreso = require('../models/Ingreso');
@@ -63,7 +64,7 @@ const getProspectoContactar = async( req, res ) => {
             let [ numeroVeces, fechaUltima ] = await Promise.all([
                 Contacto.countDocuments({ idPros: inicial._id }),
                 Contacto.find({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
-            ]) 
+            ])
             let objProspecto = {
                 prospecto: inicial,
                 numeroVeces,
@@ -75,4 +76,7 @@ const getProspectoContactar = async( req, res ) => {
     }
     res.json({ prospectoInicial });
 };
-module.exports = { getProspecto, postProspecto, getProspectoContactar };
+const moverEstado = async( req = request, res = response ) => {
+    console.log( req.body );
+}
+module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado };

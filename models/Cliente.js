@@ -6,11 +6,10 @@ const ClienteSchema = Schema({
         type: String,
         allowNull: false
     },
-    celular: {
-        type: String,
-        allowNull: true
+    correo: {
+        type: String
     },
-    tipo: {
+    celular: {
         type: String,
         allowNull: true
     },

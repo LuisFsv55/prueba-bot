@@ -12,6 +12,9 @@ const ProspectoSchema = Schema({
     correo: {
         type: String
     },
+    celular: {
+        type: String
+    },
     token: {
         type: String,
         default: generaIdRandom()
