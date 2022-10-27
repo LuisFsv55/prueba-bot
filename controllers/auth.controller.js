@@ -3,7 +3,7 @@ const Generar = require('../helpers/generar');
 const generarJWT = require('../helpers/generarJWT');
 const emailRegistro = require('../helpers/email');
 const bcryptjs = require('bcryptjs');
-const Empleado = require('../models/Empleado');
+const Persona = require('../models/Persona');
 
 // =====_____*****_____***** Método POST :: crear usuario *****_____*****_____*****=====
 const registrar = async( req, res ) => {
@@ -16,20 +16,21 @@ const registrar = async( req, res ) => {
         return res.status( 400 ).json({ msg: error.message });
     }
     try {
-        const empleado = new Empleado( { nombre, celular, direccion } );
+        const persona = new Persona( { nombre, celular, direccion } );
         const usuario = new Usuario( req.body );
         usuario.token = Generar();
-        usuario.empleado = empleado._id;
+        usuario.tipo = 'Empleado';
+        usuario.persona = persona._id;
         // Encriptar
         const salt = bcryptjs.genSaltSync( 10 );
         usuario.password = bcryptjs.hashSync( password, salt )
         await usuario.save();
-        await empleado.save();
+        await persona.save();
         // Enviar el email
-        emailRegistro( {
-            email: usuario.correo,
-            token: usuario.token
-        });
+        // emailRegistro( {
+        //     email: usuario.correo,
+        //     token: usuario.token
+        // });
         res.json({ 
             msg: 'Usuario creado exitosamente, revisa tu correo para confirmar tu cuenta'
         });

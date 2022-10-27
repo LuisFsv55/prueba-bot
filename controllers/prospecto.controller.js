@@ -78,7 +78,6 @@ const getProspectoContactar = async( req, res ) => {
 };
 const moverEstado = async( req = request, res = response ) => {
     const { prospecto } = req.body;
-    // 5467391393352920 1 1
     prospecto.forEach(async pro => {
         const { facebookId,  estado, posicion } = pro;
         const nuevo = await Prospecto.findOne({ facebookId });

@@ -11,8 +11,7 @@ const UsuarioSchema = Schema({
         required: true
     },
     tipo: {
-        type: String,
-        required: true
+        type: String
     },
     token: {
         type: String
@@ -25,10 +24,10 @@ const UsuarioSchema = Schema({
         type: Boolean,
         default: true
     },
-    empleado: {
+    persona: {
         allowNull: true,
         type: mongoose.Types.ObjectId,
-        ref: 'Empleado'
+        ref: 'Persona'
     }
 }, {
     timestamps: true

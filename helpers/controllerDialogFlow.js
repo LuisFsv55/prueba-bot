@@ -232,14 +232,16 @@ const Sillas = async( resultado, facebookId ) => {
     await envioImagen( imagenSilla, facebookId );
     return listar;
 }
-const Mesas = async(resultado, facebookId) => {
+const Mesas = async( resultado, facebookId ) => {
     const producto = await Producto.findOne({ forma: 'Cuadrada' });
     const producto1 = await Producto.findOne({ forma: 'Redonda' });
     const prospecto = await Prospecto.findOne({ facebookId });
     const obtenerMesas = await Producto.find();
+    let mesasImagenes = [];
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
         if ( alquiler.forma === 'Cuadrada' || alquiler.forma === 'Redonda' ) {
+            mesasImagenes.push({ url: alquiler.imagen } );
             listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}Bs`;
         }
     });
@@ -248,6 +250,7 @@ const Mesas = async(resultado, facebookId) => {
         await Consulta.create({ producto1, prospecto });
     }
     listar = listar + '\n ¿Quisiera realizar un pedido?';
+    await envioImagen( mesasImagenes, facebookId );
     return listar;
 }
 const Sucursales = async() => {
