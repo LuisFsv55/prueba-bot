@@ -78,11 +78,13 @@ const getProspectoContactar = async( req, res ) => {
 };
 const moverEstado = async( req = request, res = response ) => {
     const { prospecto } = req.body;
-    prospecto.forEach(pro => {
+    // 5467391393352920 1 1
+    prospecto.forEach(async pro => {
         const { facebookId,  estado, posicion } = pro;
-        console.log('---------------Inicio-----------');
-        console.log(facebookId, estado, posicion);
-        console.log('---------------Fin-----------');
+        const nuevo = await Prospecto.findOne({ facebookId });
+        nuevo.estado = estado;
+        nuevo.posicion = posicion;
+        nuevo.save();
     });
     res.json({ msg: 'enviado' });
 }
