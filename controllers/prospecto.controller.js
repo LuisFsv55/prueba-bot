@@ -31,13 +31,13 @@ const getProspecto = async( req, res ) => {
 }
 // =====_____*****_____***** Método POST :: Estado 2 *****_____*****_____*****=====
 const postProspecto = async(req, res) => {
-    const { id } = req.params;
-    const { contactar, medio, mensaje, usuarioId, posicion } = req.body;
+    // console.log(req.body);
+    // const { id } = req.params;
+    const { contactar, medio, mensaje, usuarioId, id } = req.body;
     
     try {
         const prospecto = await Prospecto.findOne({ _id: id });
         prospecto.estado = 2;
-        prospecto.posicion = parseInt( posicion );
         prospecto.save();
         const fecha = new Date().toLocaleDateString();
         const hora = new Date().toLocaleTimeString();
