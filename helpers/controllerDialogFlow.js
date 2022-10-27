@@ -102,10 +102,9 @@ const valor = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const CorreoProspecto = async( resultado, facebookId ) => {
-    console.log('------------------Inicio-------------');
-    console.log(resultado);
-    console.log(resultado.queryText);
-    console.log('------------------Fin-------------');
+    const prospecto = await Prospecto.findOne({ facebookId });
+    prospecto.correo = resultado.queryText;
+    prospecto.save();
     return resultado.fulfillmentText;
 }
 const Promociones = async( resultado ) => {
