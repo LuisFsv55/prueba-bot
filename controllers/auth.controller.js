@@ -61,9 +61,12 @@ const autenticar = async(req, res) => {
     // 4. Comprobar su password
     const validarPassword = bcryptjs.compareSync( password, usuario.password );
     if ( validarPassword ) {
+        const {persona} = await Usuario.findOne({ correo }).populate('persona');
         res.json({
             _id: usuario._id,
-            nombre: usuario.nombre,
+            nombre: persona.nombre,
+            celular: persona.celular,
+            direccion: persona.direccion,
             correo: usuario.correo,
             token: generarJWT( usuario._id )
         });
