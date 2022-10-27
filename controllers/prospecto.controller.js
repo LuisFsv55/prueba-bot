@@ -77,7 +77,13 @@ const getProspectoContactar = async( req, res ) => {
     res.json({ prospectoInicial });
 };
 const moverEstado = async( req = request, res = response ) => {
-    console.log( req.body );
+    const { prospecto } = req.body;
+    prospecto.forEach(pro => {
+        const { facebookId,  estado, posicion } = pro;
+        console.log('---------------Inicio-----------');
+        console.log(facebookId, estado, posicion);
+        console.log('---------------Fin-----------');
+    });
     res.json({ msg: 'enviado' });
 }
 module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado };
