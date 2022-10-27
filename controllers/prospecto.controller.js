@@ -82,8 +82,8 @@ const moverEstado = async( req = request, res = response ) => {
     prospecto.forEach(async pro => {
         const { facebookId,  estado, posicion } = pro;
         const nuevo = await Prospecto.findOne({ facebookId });
-        nuevo.estado = estado;
-        nuevo.posicion = posicion;
+        nuevo.estado = parseInt( estado );
+        nuevo.posicion = parseInt( posicion );
         nuevo.save();
     });
     res.json({ msg: 'enviado' });
