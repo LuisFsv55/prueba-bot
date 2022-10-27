@@ -7,10 +7,10 @@ const Persona = require('../models/Persona');
 
 // =====_____*****_____***** Método POST :: crear usuario *****_____*****_____*****=====
 const registrar = async( req, res ) => {
-    const { email, password, nombre, celular, direccion } = req.body;
+    const { correo, password, nombre, celular, direccion } = req.body;
     
     // 1. Evitar registros duplicados, usuario ya registrado
-    const existe = await Usuario.findOne({ email });
+    const existe = await Usuario.findOne({ correo });
     if ( existe ) {
         const error = new Error('Usuario ya está registrado');
         return res.status( 400 ).json({ msg: error.message });
