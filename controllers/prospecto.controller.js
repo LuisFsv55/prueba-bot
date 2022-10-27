@@ -78,5 +78,6 @@ const getProspectoContactar = async( req, res ) => {
 };
 const moverEstado = async( req = request, res = response ) => {
     console.log( req.body );
+    res.json({ msg: 'enviado' });
 }
 module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado };

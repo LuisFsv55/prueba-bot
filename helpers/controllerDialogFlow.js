@@ -104,7 +104,7 @@ const valor = async( resultado, facebookId ) => {
 const CorreoProspecto = async( resultado, facebookId ) => {
     console.log('------------------Inicio-------------');
     console.log(resultado);
-    console.log(resultado.queryResult.parameters);
+    console.log(resultado.queryText);
     console.log('------------------Fin-------------');
     return resultado.fulfillmentText;
 }
