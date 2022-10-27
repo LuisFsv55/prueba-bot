@@ -3,6 +3,7 @@ const { default: mongoose } = require('mongoose');
 const Contacto = require('../models/Contacto');
 const Ingreso = require('../models/Ingreso');
 const Prospecto = require('../models/Prospecto');
+const Usuario = require('../models/Usuario');
 
 // =====_____*****_____***** Método POST :: Estado 1 *****_____*****_____*****=====
 const getProspecto = async( req, res ) => {
@@ -33,18 +34,15 @@ const getProspecto = async( req, res ) => {
 const postProspecto = async(req, res) => {
     // console.log(req.body);
     // const { id } = req.params;
-    const { contactar, medio, mensaje, usuarioId, id } = req.body;
+    const { contactar, medio, mensaje, prospecto, id } = req.body;
     
     try {
-        const prospecto = await Prospecto.findOne({ _id: id });
-        prospecto.estado = 2;
-        prospecto.save();
         const fecha = new Date().toLocaleDateString();
         const hora = new Date().toLocaleTimeString();
-        const idPros = new mongoose.Types.ObjectId( id );
-        const usuario = mongoose.Types.ObjectId( usuarioId );
+        const usuario = new mongoose.Types.ObjectId( id );//
+        const idPros = new mongoose.Types.ObjectId( prospecto );
         // Nuevo contacto
-        const cont = new Contacto({ contactar, medio, mensaje, fecha, hora, idPros, usuario });
+        const cont = new Contacto({ contactar, medio, mensaje, fecha, hora, idPros, usuario  });
         cont.save();
         res.json({
             cont

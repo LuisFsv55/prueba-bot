@@ -3,7 +3,7 @@ const { getProspecto, postProspecto, getProspectoContactar, moverEstado } = requ
 const router = Router();
 
 router.get('/', getProspecto);
-router.post('/contactar/:id', postProspecto);
+router.post('/contactar', postProspecto);
 router.post('/estado', moverEstado);
 router.get('/contactar', getProspectoContactar);
 
