@@ -272,7 +272,7 @@ const carrito = async( resultado, facebookId ) => {
     const producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
     let productoDB = await Producto.findOne({ forma: producto });
     let carrito;
-    let cliente = await Cliente.findOne({ idPros: facebookId });
+    let cliente = await Cliente.findOne({ facebookId });
     let prospecto = await Prospecto.findOne({ facebookId });
     if ( !productoDB ) {// es mesa
         productoDB = await Producto.findOne({ nombre: "silla" });        
