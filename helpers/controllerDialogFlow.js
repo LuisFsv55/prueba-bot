@@ -270,12 +270,12 @@ const carrito = async( resultado, facebookId ) => {
     // 1. Dato de dialogflow
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
     const producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
-    const mesa = await Producto.findOne({ forma: producto });
-    let silla, carrito;
+    let productoDB = await Producto.findOne({ forma: producto });
+    let carrito;
     let cliente = await Cliente.findOne({ idPros: facebookId });
     let prospecto = await Prospecto.findOne({ facebookId });
-    if ( !mesa ) {// es mesa
-        silla = await Producto.findOne({ nombre: "silla" });        
+    if ( !productoDB ) {// es mesa
+        productoDB = await Producto.findOne({ nombre: "silla" });        
     }
     // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
     if ( !cliente ) {
@@ -290,7 +290,7 @@ const carrito = async( resultado, facebookId ) => {
         // encontramos el anterior carrito
         carrito = await Pedido.findOne({ cliente: cliente._id });
     }
-    // crear nuevo
+    // crear nuevo carrito
     if ( !carrito ) {
         const fecha = new Date().toLocaleDateString();
         const hora = new Date().toLocaleTimeString();
@@ -298,27 +298,31 @@ const carrito = async( resultado, facebookId ) => {
             monto: 0,
             fecha, hora,
             cliente: cliente._id
-            // confirmado por defecto
+            // confirmado por defecto false
         });
     }
     // detalle del pedido
-    let subtTotal = cantidad * parseInt( producto.precio );
+    let subTotal = cantidad * parseInt( productoDB.precio );
     await PedidoDetalle.create({
         cantidad,
-        precio: parseInt( producto.precio ),
-        sub_total: subtTotal,
-        producto: producto._id,
+        precio: parseInt( productoDB.precio ),
+        sub_total: subTotal,
+        producto: productoDB._id,
         pedido: carrito._id
     });
     // TODO: ACTUALIZAR MONTO
+    let montoCarrito = parseInt( carrito.monto ) + subTotal;
+    await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
+    console.log('---------------Inicio carrito --------------');
+    console.log(carrito);
+    console.log(subTotal);
+    console.log(montoCarrito);
+    console.log('---------------Fin carrito --------------');
     
     
     
-    
-    // console.log('---------------Inicio carrito --------------');
     // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
     // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
-    // console.log('---------------Fin carrito --------------');
     return resultado.fulfillmentText;
 };
 const ApiFacebook = async( facebookId ) => {

@@ -50,7 +50,7 @@ const test = ( req, res ) => {
     // promocion1.save();
     // promocion2.save();
     res.send('Bot prueba');
-    console.log('Bot prueba');
+    // console.log('Bot prueba');
 }
 const getWebHook = ( req, res ) => {
     const verifyToken = config.MY_VERIFY_TOKEN;
@@ -59,7 +59,7 @@ const getWebHook = ( req, res ) => {
     const challengue = req.query['hub.challenge'];
     if ( mode && token ) {
         if ( mode === 'subscribe' && token === verifyToken ) {
-            console.log(' webhook verificado ');
+            // console.log(' webhook verificado ');
             res.status( 200 ).send( challengue );
         } else {
             res.sendStatus( 403 );
@@ -89,7 +89,7 @@ const receivedMessage = async( event ) => {
     let message = event.message;
     let messageText = message.text;
     if ( messageText ) {
-        console.log("1.MENSAJE DEL USUARIO: ", messageText);
+        // console.log("1.MENSAJE DEL USUARIO: ", messageText);
         await sendDialogFlow(senderId, messageText);
     }
 }
@@ -101,7 +101,7 @@ const sendDialogFlow = async( senderId, messageText ) => {
     envioMensaje( peticion_body );
 }
 const envioMensaje = async( peticion_body ) => {
-    console.log('Envio mensaje a messenger');
+    // console.log('Envio mensaje a messenger');
     request(
         {
             uri: "https://graph.facebook.com/v14.0/me/messages",
