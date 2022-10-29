@@ -117,14 +117,4 @@ const envioMensaje = async( peticion_body ) => {
         }
     );
 }
-const sendTypingOff = recipientId => {
-    var messageData = {
-      recipient: {
-        id: recipientId,
-      },
-      sender_action: "typing_off",
-    };
-    // TODO:
-    // callSendAPI(messageData);
-}
 module.exports ={ test, getWebHook, postWebHook };

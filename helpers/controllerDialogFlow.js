@@ -118,7 +118,7 @@ const Promociones = async( resultado ) => {
     return strPromos;
 }
 const formaMesaCuadrada = async( resultado, facebookId ) => {
-    const producto = await Producto.findOne({ forma: 'Cuadrada' });
+    const producto = await Producto.findOne({ forma: 'cuadrada' });
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
         console.log('entro aqui');
@@ -128,7 +128,7 @@ const formaMesaCuadrada = async( resultado, facebookId ) => {
 }
 const formaMesaCircular = async( resultado, facebookId ) => {
     console.log('mesa cuadrada');
-    const producto = await Producto.findOne({ forma: 'Redonda' });
+    const producto = await Producto.findOne({ forma: 'redonda' });
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
         console.log('entro aqui');
@@ -137,7 +137,7 @@ const formaMesaCircular = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const PedidoSillas = async( resultado, facebookId ) => {
-    const producto = await Producto.findOne({ nombre: 'Silla' });
+    const producto = await Producto.findOne({ nombre: 'silla' });
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
         await Consulta.create({ producto, prospecto });
@@ -171,10 +171,10 @@ const Precios = async( resultado, facebookId ) => {
     obtenerTodosAlquileres.forEach( pro => {
         // console.log("Productos: " + pro);
         imagenesMostrar.push({ url: pro.imagen });
-        if ( pro.nombre === 'Silla' ) {
+        if ( pro.nombre === 'silla' ) {
             listar = listar + `\n * 10 ${pro.nombre} a ${pro.precio}Bs`;
         } else {
-            if ( pro.forma === 'Cuadrada' ) {
+            if ( pro.forma === 'cuadrada' ) {
                 listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
             } else {
                 listar = listar + `\n * 5 ${pro.nombre}s de forma ${pro.forma} a ${pro.precio} Bs`;
@@ -216,12 +216,12 @@ const envioImagen = async( imagenes, id ) => {
 }
 const Sillas = async( resultado, facebookId ) => {
     const obtenerSilla = await Producto.find();
-    const producto = await Producto.findOne({ nombre: 'Silla' });
+    const producto = await Producto.findOne({ nombre: 'silla' });
     const prospecto = await Prospecto.findOne({ facebookId });
     let listar = '';
     let imagenSilla = [];
     obtenerSilla.forEach( alquiler => {
-        if ( alquiler.nombre === 'Silla' ) {
+        if ( alquiler.nombre === 'silla' ) {
             imagenSilla.push( { url: alquiler.imagen } )
             listar = listar + `\n 🪑Las sillas están a un precio de: \n 10 sillas a ${alquiler.precio}Bs. \n¿Quisiera realizar un pedido?`;
         }
@@ -233,14 +233,14 @@ const Sillas = async( resultado, facebookId ) => {
     return listar;
 }
 const Mesas = async( resultado, facebookId ) => {
-    const producto = await Producto.findOne({ forma: 'Cuadrada' });
-    const producto1 = await Producto.findOne({ forma: 'Redonda' });
+    const producto = await Producto.findOne({ forma: 'cuadrada' });
+    const producto1 = await Producto.findOne({ forma: 'redonda' });
     const prospecto = await Prospecto.findOne({ facebookId });
     const obtenerMesas = await Producto.find();
     let mesasImagenes = [];
     let listar = 'El precio de las mesas son los siguientes: ';
     obtenerMesas.forEach( alquiler => {
-        if ( alquiler.forma === 'Cuadrada' || alquiler.forma === 'Redonda' ) {
+        if ( alquiler.forma === 'cuadrada' || alquiler.forma === 'redonda' ) {
             mesasImagenes.push({ url: alquiler.imagen } );
             listar = listar + `\n * 5 ${alquiler.nombre}s de forma ${alquiler.forma} a ${alquiler.precio}Bs`;
         }
