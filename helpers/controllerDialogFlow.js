@@ -12,6 +12,7 @@ const Ingreso = require("../models/Ingreso");
 const request = require('request');
 const Pedido = require("../models/Pedido");
 const PedidoDetalle = require("../models/PedidoDetalle");
+const { default: mongoose } = require("mongoose");
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
