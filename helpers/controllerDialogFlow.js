@@ -280,13 +280,11 @@ const carrito = async( resultado, facebookId ) => {
     }
     // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
     if ( !cliente ) {
-        const idCliente = new mongoose.Types.ObjectId( prospecto.facebookId );//
         console.log('--------------------------cliente-----------------');
-        console.log(idCliente)
         cliente = await Cliente.create({
             nombre: prospecto.nombre,
             facebookId: prospecto.facebookId,
-            idPros: idCliente
+            idPros: prospecto._id
         });
     }
     // 3. Encontramos cliente y prospecto: encontrar pedido anterior
