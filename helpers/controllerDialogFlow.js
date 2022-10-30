@@ -12,7 +12,6 @@ const Ingreso = require("../models/Ingreso");
 const request = require('request');
 const Pedido = require("../models/Pedido");
 const PedidoDetalle = require("../models/PedidoDetalle");
-const { default: mongoose } = require("mongoose");
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
@@ -68,6 +67,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             break;
         case 'cantidadSillas':
             respuesta = await carrito( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
+        case 'NoConfirmacion':
+            respuesta = await noConfirmacion( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
         default:
@@ -325,6 +328,14 @@ const carrito = async( resultado, facebookId ) => {
     
     // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
     // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
+    return resultado.fulfillmentText;
+};
+const noConfirmacion = async( resultado, facebookId ) => {
+    const cliente = await Cliente.findOne({ facebookId });
+    const existePedido = await Pedido.findOne().populate('cliente').findOne({ _id: cliente._id });
+    console.log('-------Pedido---------');
+    console.log(existePedido);
+    console.log('-------Pedido---------');
     return resultado.fulfillmentText;
 };
 const ApiFacebook = async( facebookId ) => {
