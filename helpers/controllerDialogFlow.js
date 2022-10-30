@@ -332,7 +332,7 @@ const carrito = async( resultado, facebookId ) => {
 };
 const noConfirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
-    const existePedido = await Pedido.findOne().populate('cliente');
+    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
     console.log('-------Pedido---------');
     console.log(existePedido);
     console.log('-------Pedido---------');
