@@ -272,62 +272,62 @@ const Sucursales = async() => {
 // 2022-10-25T15:08:50.450098+00:00 app[web.1]: { stringValue: 'silla', kind: 'stringValue' }
 const carrito = async( resultado, facebookId ) => {
     // 1. Dato de dialogflow
-    let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
-    const producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
-    let productoDB = await Producto.findOne({ forma: producto });
-    let carrito;
-    let cliente = await Cliente.findOne({ facebookId });
-    let prospecto = await Prospecto.findOne({ facebookId });
-    if ( !productoDB ) {// es mesa
-        productoDB = await Producto.findOne({ nombre: "silla" });        
-    }
-    // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
-    if ( !cliente ) {
-        console.log('--------------------------cliente-----------------');
-        cliente = await Cliente.create({
-            nombre: prospecto.nombre,
-            facebookId: prospecto.facebookId,
-            idPros: prospecto._id
-        });
-    }
-    // 3. Encontramos cliente y prospecto: encontrar pedido anterior
-    if ( cliente ) {
-        // encontramos el anterior carrito
-        carrito = await Pedido.findOne({ cliente: cliente._id });
-    }
-    // crear nuevo carrito
-    if ( !carrito ) {
-        const fecha = new Date().toLocaleDateString();
-        const hora = new Date().toLocaleTimeString();
-        carrito = await Pedido.create({
-            monto: 0,
-            fecha, hora,
-            cliente: cliente._id
-            // confirmado por defecto false
-        });
-    }
-    // detalle del pedido
-    let subTotal = cantidad * parseInt( productoDB.precio );
-    await PedidoDetalle.create({
-        cantidad,
-        precio: parseInt( productoDB.precio ),
-        sub_total: subTotal,
-        producto: productoDB._id,
-        pedido: carrito._id
-    });
-    // TODO: ACTUALIZAR MONTO
-    let montoCarrito = parseInt( carrito.monto ) + subTotal;
-    await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
-    console.log('---------------Inicio carrito --------------');
-    console.log(carrito);
-    console.log(subTotal);
-    console.log(montoCarrito);
-    console.log('---------------Fin carrito --------------');
+    // let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
+    // const producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
+    // let productoDB = await Producto.findOne({ forma: producto });
+    // let carrito;
+    // let cliente = await Cliente.findOne({ facebookId });
+    // let prospecto = await Prospecto.findOne({ facebookId });
+    // if ( !productoDB ) {// es mesa
+    //     productoDB = await Producto.findOne({ nombre: "silla" });        
+    // }
+    // // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
+    // if ( !cliente ) {
+    //     console.log('--------------------------cliente-----------------');
+    //     cliente = await Cliente.create({
+    //         nombre: prospecto.nombre,
+    //         facebookId: prospecto.facebookId,
+    //         idPros: prospecto._id
+    //     });
+    // }
+    // // 3. Encontramos cliente y prospecto: encontrar pedido anterior
+    // if ( cliente ) {
+    //     // encontramos el anterior carrito
+    //     carrito = await Pedido.findOne({ cliente: cliente._id });
+    // }
+    // // crear nuevo carrito
+    // if ( !carrito ) {
+    //     const fecha = new Date().toLocaleDateString();
+    //     const hora = new Date().toLocaleTimeString();
+    //     carrito = await Pedido.create({
+    //         monto: 0,
+    //         fecha, hora,
+    //         cliente: cliente._id
+    //         // confirmado por defecto false
+    //     });
+    // }
+    // // detalle del pedido
+    // let subTotal = cantidad * parseInt( productoDB.precio );
+    // await PedidoDetalle.create({
+    //     cantidad,
+    //     precio: parseInt( productoDB.precio ),
+    //     sub_total: subTotal,
+    //     producto: productoDB._id,
+    //     pedido: carrito._id
+    // });
+    // // TODO: ACTUALIZAR MONTO
+    // let montoCarrito = parseInt( carrito.monto ) + subTotal;
+    // await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
+    // console.log('---------------Inicio carrito --------------');
+    // console.log(carrito);
+    // console.log(subTotal);
+    // console.log(montoCarrito);
+    // console.log('---------------Fin carrito --------------');
     
     
     
-    // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
-    // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
+    // // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
+    // // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
     return resultado.fulfillmentText;
 };
 const noConfirmacion = async( resultado, facebookId ) => {
