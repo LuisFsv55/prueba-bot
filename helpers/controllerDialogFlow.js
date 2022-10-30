@@ -310,7 +310,7 @@ const carrito = async( resultado, facebookId ) => {
     // 3. Encontramos cliente y prospecto: encontrar pedido anterior
     if ( cliente ) {
         // encontramos el anterior carrito
-        carrito = await Pedido.findOne({ cliente: cliente._id });
+        carrito = await Pedido.findOne({ cliente: cliente._id, confirmado: false });
     }
     // crear nuevo carrito
     if ( !carrito ) {
