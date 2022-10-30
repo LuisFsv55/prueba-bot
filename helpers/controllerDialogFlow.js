@@ -73,6 +73,14 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             respuesta = await noConfirmacion( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
+        case 'Confirmacion':
+            respuesta = await confirmacion( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
+        case 'PedirNombre1':
+            respuesta = await pedirNombre( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
         default:
             peticion = await envio( resultado.fulfillmentText, senderId );
             break;
@@ -349,12 +357,25 @@ const carrito = async( resultado, facebookId ) => {
 //   updatedAt: 2022-10-30T01:16:03.741Z,
 //   __v: 0
 // }
-  const noConfirmacion = async( resultado, facebookId ) => {
+const noConfirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
     let mensaje = `Su carrito tiene la suma total de: ${ existePedido.monto }$ quiere confirmar su carrito?`;
     return mensaje;
 };
+const confirmacion = async( resultado, facebookId ) => {
+    const cliente = await Cliente.findOne({ facebookId });
+    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
+    existePedido.confirmado = true;
+    existePedido.save();
+    return resultado.fulfillmentText;
+}
+const pedirNombre = async( resultado, facebookId ) => {
+    console.log('Pedir nombre-------------------');
+    console.log(resultado.queryText);
+    // const cliente = await Cliente.findOne({ facebookId });
+    return resultado.fulfillmentText;
+}
 const ApiFacebook = async( facebookId ) => {
     const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
     const { data } = await axios.get( url );
