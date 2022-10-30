@@ -330,15 +330,30 @@ const carrito = async( resultado, facebookId ) => {
     // // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
     return resultado.fulfillmentText;
 };
-const noConfirmacion = async( resultado, facebookId ) => {
+// {
+//   _id: new ObjectId("635dd05300a3eefef123833d"),
+//   fecha: '10/30/2022',
+//   hora: '1:16:03 AM',
+//   monto: 500,
+//   cliente: {
+//     _id: new ObjectId("635dd05300a3eefef123833a"),
+//     nombre: 'Nano Vargas',
+//     idPros: new ObjectId("63583cb87eaab3514c91310a"),
+//     facebookId: '5319732098134729',
+//     createdAt: 2022-10-30T01:16:03.720Z,
+//     updatedAt: 2022-10-30T01:16:03.720Z,
+//     __v: 0
+//   },
+//   confirmado: false,
+//   createdAt: 2022-10-30T01:16:03.729Z,
+//   updatedAt: 2022-10-30T01:16:03.741Z,
+//   __v: 0
+// }
+  const noConfirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
-    const test = await Pedido.find().populate('cliente');
-    console.log('-------Pedido---------');
-    console.log(existePedido);
-    console.log(test);
-    console.log('-------Pedido---------');
-    return resultado.fulfillmentText;
+    let mensaje = `Su carrito tiene la suma total de: ${ existePedido.monto }$ quiere confirmar su carrito?`;
+    return mensaje;
 };
 const ApiFacebook = async( facebookId ) => {
     const url = `https://graph.facebook.com/v15.0/${ facebookId }?fields=first_name,last_name,profile_pic&access_token=${ config.FB_PAGE_TOKEN }`;
