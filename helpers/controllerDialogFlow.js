@@ -292,11 +292,9 @@ const carrito = async( resultado, facebookId ) => {
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
     
     console.log('--------------------------producto-----------------');
-    console.log(resultado.outputContexts[2].parameters.fields)
-    let producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
+    let producto = resultado.outputContexts[2].parameters.fields.Formas.stringValue;
     console.log(producto)
     let productoDB = await Producto.findOne({ forma: producto });
-    console.log(productoDB);
     console.log('--------------------------producto-----------------');
     let carrito;
     let cliente = await Cliente.findOne({ facebookId });
