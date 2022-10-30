@@ -290,8 +290,13 @@ const Sucursales = async() => {
 const carrito = async( resultado, facebookId ) => {
     // 1. Dato de dialogflow
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
+    
+    console.log('--------------------------producto-----------------');
     const producto = await parseInt( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
+    console.log(producto)
     let productoDB = await Producto.findOne({ forma: producto });
+    console.log(productoDB);
+    console.log('--------------------------producto-----------------');
     let carrito;
     let cliente = await Cliente.findOne({ facebookId });
     let prospecto = await Prospecto.findOne({ facebookId });
@@ -300,7 +305,6 @@ const carrito = async( resultado, facebookId ) => {
     }
     // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
     if ( !cliente ) {
-        console.log('--------------------------cliente-----------------');
         cliente = await Cliente.create({
             nombre: prospecto.nombre,
             facebookId: prospecto.facebookId,
