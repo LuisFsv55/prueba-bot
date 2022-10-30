@@ -81,6 +81,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             respuesta = await pedirNombre( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
+        case 'correoCliente':
+            respuesta = await correoCliente( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
         default:
             peticion = await envio( resultado.fulfillmentText, senderId );
             break;
@@ -378,6 +382,12 @@ const confirmacion = async( resultado, facebookId ) => {
 const pedirNombre = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     cliente.nombre = resultado?.queryText;
+    cliente.save();
+    return resultado.fulfillmentText;
+}
+const correoCliente = async( resultado, facebookId ) => {
+    const cliente = await Cliente.findOne({ facebookId });
+    cliente.correo = resultado?.queryText;
     cliente.save();
     return resultado.fulfillmentText;
 }
