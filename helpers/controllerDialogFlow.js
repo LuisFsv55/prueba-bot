@@ -158,19 +158,24 @@ const PedidoSillas = async( resultado, facebookId ) => {
 }
 const PedirNombreCelular = async( resultado, facebookId ) => {
     try {
-        console.log(resultado.outputContexts[0].parameters.fields);
-        console.log(resultado.outputContexts[1].parameters.fields);
-        const nombre = resultado?.outputContexts[1].parameters.fields.any.stringValue;
-        const celular = resultado?.outputContexts[1].parameters.fields.number.numberValue;
-        const cliente = await Cliente.findOne({ facebookId: `${facebookId}` });
-        const usuario = await Prospecto.findOne({ facebookId });
-        if ( cliente ) {
-            await cliente.updateOne( { nombre, celular } );
-        } else {
-            const registrar = new Cliente( { nombre, celular, facebookId, idPros: usuario._id  } );
-            registrar.save();
-        }
-        console.log('------- Cliente creado -------' + Cliente)
+
+        // console.log(resultado.outputContexts[0].parameters.fields);
+        // console.log(resultado.outputContexts[1].parameters.fields);
+        // const nombre = resultado?.outputContexts[1].parameters.fields.any.stringValue;
+        // const celular = resultado?.outputContexts[1].parameters.fields.number.numberValue;
+        // const cliente = await Cliente.findOne({ facebookId: `${facebookId}` });
+        // const usuario = await Prospecto.findOne({ facebookId });
+        // if ( cliente ) {
+        //     await cliente.updateOne( { nombre, celular } );
+        // } else {
+        //     const registrar = new Cliente( { nombre, celular, facebookId, idPros: usuario._id  } );
+        //     registrar.save();
+        // }
+        // console.log('------- Cliente creado -------' + Cliente)
+        const cliente = await Cliente.findOne({ facebookId });
+        cliente.celular = resultado?.queryText;
+        cliente.save();
+        return resultado.fulfillmentText;
     } catch (error) {
         console.log('Error al insertar en la db: ' + error);
     }
@@ -371,9 +376,9 @@ const confirmacion = async( resultado, facebookId ) => {
     return resultado.fulfillmentText;
 }
 const pedirNombre = async( resultado, facebookId ) => {
-    console.log('Pedir nombre-------------------');
-    console.log(resultado.queryText);
-    // const cliente = await Cliente.findOne({ facebookId });
+    const cliente = await Cliente.findOne({ facebookId });
+    cliente.nombre = resultado?.queryText;
+    cliente.save();
     return resultado.fulfillmentText;
 }
 const ApiFacebook = async( facebookId ) => {
