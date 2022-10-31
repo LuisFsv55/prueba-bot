@@ -77,6 +77,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
             respuesta = await confirmacion( resultado, senderId );
             peticion = await envio( respuesta, senderId );
             break;
+        case 'NoConfirmarCarrito':
+            respuesta = await noConfirmarCarrito( resultado, senderId );
+            peticion = await envio( respuesta, senderId );
+            break;
         case 'PedirNombre1':
             respuesta = await pedirNombre( resultado, senderId );
             peticion = await envio( respuesta, senderId );
@@ -392,6 +396,12 @@ const correoCliente = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     cliente.correo = resultado?.queryText;
     cliente.save();
+    return resultado.fulfillmentText;
+}
+const noConfirmarCarrito = async( resultado, facebookId ) => {
+    const cliente = await Cliente.findOne({ facebookId });
+    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
+    await Pedido.findByIdAndDelete( existePedido._id  );
     return resultado.fulfillmentText;
 }
 const ApiFacebook = async( facebookId ) => {
