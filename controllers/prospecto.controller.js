@@ -69,6 +69,7 @@ const getProspectoContactar = async( req, res ) => {
                 Contacto.findOne({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ).populate('usuario').populate('idPros'),
             ])
             let objProspecto = {
+                propecto: inicial,
                 numeroVeces,
                 fechaInicial: fechaInicial.fecha,
                 fechaUltima: fechaUltima.fecha
