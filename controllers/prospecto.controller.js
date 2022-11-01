@@ -91,4 +91,10 @@ const moverEstado = async( req = request, res = response ) => {
     });
     res.json({ msg: 'enviado' });
 }
-module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado };
+const postOneMensaje = async(req, res) => {
+    const { id } = req.body;
+    const nuevo = new mongoose.Types.ObjectId( id );
+    const mensaje = await Contacto.find({ idPros: nuevo });
+    res.json({ mensaje })
+}
+module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado, postOneMensaje };
