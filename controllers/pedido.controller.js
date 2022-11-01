@@ -4,6 +4,7 @@ const Cliente = require('../models/Cliente');
 const Contacto = require('../models/Contacto');
 const Ingreso = require('../models/Ingreso');
 const Pedido = require('../models/Pedido');
+const PedidoDetalle = require('../models/PedidoDetalle');
 const Prospecto = require('../models/Prospecto');
 const Usuario = require('../models/Usuario');
 
@@ -28,4 +29,11 @@ const getPedido = async( req, res ) => {
     }
     res.json({ pedidos });
 }
-module.exports = { getPedido };
+const getOneCliente = async( req, res ) => {
+    const { id } = req.params;
+    const cliente = await Cliente.findOne({ facebookId: id });
+    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
+    res.json({ existePedido });
+    // const pedidoDetalle = await PedidoDetalle.find({ pedido: { _id: existePedido._id } }).populate('pedido');
+}
+module.exports = { getPedido, getOneCliente };

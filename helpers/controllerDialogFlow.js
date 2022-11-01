@@ -349,11 +349,11 @@ const carrito = async( resultado, facebookId ) => {
     // TODO: ACTUALIZAR MONTO
     let montoCarrito = parseInt( carrito.monto ) + subTotal;
     await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
-    console.log('---------------Inicio carrito --------------');
-    console.log(carrito);
-    console.log(subTotal);
-    console.log(montoCarrito);
-    console.log('---------------Fin carrito --------------');
+    // console.log('---------------Inicio carrito --------------');
+    // console.log(carrito);
+    // console.log(subTotal);
+    // console.log(montoCarrito);
+    // console.log('---------------Fin carrito --------------');
     
     
     
@@ -389,8 +389,11 @@ const noConfirmacion = async( resultado, facebookId ) => {
 const confirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
+    console.log('--------------confirmar');
+    console.log(existePedido)
     existePedido.confirmado = true;
     existePedido.save();
+    console.log('--------------confirmar');
     return resultado.fulfillmentText;
 }
 const pedirNombre = async( resultado, facebookId ) => {
