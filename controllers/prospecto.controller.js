@@ -2,6 +2,7 @@ const { request, response } = require('express');
 const { default: mongoose } = require('mongoose');
 const Contacto = require('../models/Contacto');
 const Ingreso = require('../models/Ingreso');
+const Persona = require('../models/Persona');
 const Prospecto = require('../models/Prospecto');
 const Usuario = require('../models/Usuario');
 
@@ -94,7 +95,15 @@ const moverEstado = async( req = request, res = response ) => {
 const postOneMensaje = async(req, res) => {
     const { id } = req.body;
     const nuevo = new mongoose.Types.ObjectId( id );
-    const mensaje = await Contacto.find({ idPros: nuevo });
-    res.json({ mensaje })
-}
+    const mensaje = await Contacto.find({ idPros: nuevo }).populate('usuario');
+    let usuarios = [];
+    let i = 0;
+    while ( i < mensaje.length ) {
+        let data = mensaje[i].usuario.persona;
+        let persona = await Persona.findOne({ _id: data });
+        usuarios.push(  persona  );
+        i++;
+    }
+    res.json({ mensaje, usuarios })
+};
 module.exports = { getProspecto, postProspecto, getProspectoContactar, moverEstado, postOneMensaje };
