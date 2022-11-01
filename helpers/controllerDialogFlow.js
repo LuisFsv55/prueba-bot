@@ -402,7 +402,7 @@ const noConfirmarCarrito = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
     const pedidoDetalle = await PedidoDetalle.findOne({ pedido: { _id: existePedido._id } }).populate('pedido');
-    console.log(pedidoDetalle)
+    await PedidoDetalle.findByIdAndDelete( pedidoDetalle._id )
     await Pedido.findByIdAndDelete( existePedido._id  );
     return resultado.fulfillmentText;
 }
