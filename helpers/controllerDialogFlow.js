@@ -390,7 +390,8 @@ const confirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.find({ cliente: cliente._id }).sort( { $natural: -1 } ).limit( 1 );
     console.log('--------------confirmar');
-    console.log(existePedido)
+    console.log(existePedido[0]);
+    console.log(existePedido[0].confirmado);
     // existePedido.confirmado = true;
     // existePedido.save();
     console.log('--------------confirmar');
