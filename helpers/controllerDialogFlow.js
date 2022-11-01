@@ -393,7 +393,7 @@ const confirmacion = async( resultado, facebookId ) => {
     // console.log(existePedido[0]);
     // console.log(existePedido[0].confirmado);
     existePedido[0].confirmado = true;
-    existePedido.save();
+    existePedido[0].save();
     console.log('--------------confirmar');
     return resultado.fulfillmentText;
 }
