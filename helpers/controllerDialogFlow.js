@@ -402,11 +402,11 @@ const noConfirmarCarrito = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
     const pedidoDetalle = await PedidoDetalle.find({ pedido: { _id: existePedido._id } }).populate('pedido');
-    console.log('------------detalle')
-    console.log(pedidoDetalle);
-    // pedidoDetalle.forEach(async pedido => {
-    //     await PedidoDetalle.findByIdAndDelete( pedidoDetalle._id )
-    // });
+    // console.log('------------detalle')
+    // console.log(pedidoDetalle);
+    pedidoDetalle.forEach(async pedido => {
+        await PedidoDetalle.findByIdAndDelete( pedido._id )
+    });
     await Pedido.findByIdAndDelete( existePedido._id  );
     return resultado.fulfillmentText;
 }
