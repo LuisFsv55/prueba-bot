@@ -389,11 +389,11 @@ const noConfirmacion = async( resultado, facebookId ) => {
 const confirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.find({ cliente: cliente._id }).sort( { $natural: -1 } ).limit( 1 );
-    console.log('--------------confirmar');
-    console.log(existePedido[0]);
-    console.log(existePedido[0].confirmado);
-    // existePedido.confirmado = true;
-    // existePedido.save();
+    // console.log('--------------confirmar');
+    // console.log(existePedido[0]);
+    // console.log(existePedido[0].confirmado);
+    existePedido[0].confirmado = true;
+    existePedido.save();
     console.log('--------------confirmar');
     return resultado.fulfillmentText;
 }
