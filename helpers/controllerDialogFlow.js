@@ -321,9 +321,13 @@ const carrito = async( resultado, facebookId ) => {
     }
     // crear nuevo carrito
     if ( !carrito ) {
-        const fecha = new Date().toLocaleDateString();
+        const fecha = new Date().toLocaleDateString('es-ES', {
+            timeZone: 'America/La_Paz',
+        });
         console.log(fecha)
-        const hora = Date().toLocaleTimeString();
+        const hora = new Date().toLocaleTimeString('es-ES', {
+            timeZone: 'America/La_Paz',
+        });
         console.log(hora);
         carrito = await Pedido.create({
             monto: 0,
