@@ -22,6 +22,7 @@ app.use( express.static('public') );
 app.use( '/', webRoutes );
 app.use('/api/prospecto', require( './routes/prospecto.routes' ));
 app.use('/api/usuario', require( './routes/usuarioAuth.routes' ));
+app.use('/api/pedido', require( './routes/pedido.routes' ));
 // ===__********** Arrancar servidor  **********__===
 app.listen( port, () => {
     console.log( 'Servidor iniciando en puerto: ' + port );
