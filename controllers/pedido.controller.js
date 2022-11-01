@@ -32,8 +32,21 @@ const getPedido = async( req, res ) => {
 const getOneCliente = async( req, res ) => {
     const { id } = req.params;
     const cliente = await Cliente.findOne({ facebookId: id });
-    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
-    res.json({ existePedido });
-    // const pedidoDetalle = await PedidoDetalle.find({ pedido: { _id: existePedido._id } }).populate('pedido');
+    const existePedido = await Pedido.find({ cliente: cliente._id });
+    // const existePedido = await Pedido.find({ cliente: cliente._id }).sort( { $natural: -1 } ).limit( 1 );
+    let i = 0;
+    let pedidoDetalleCarrito = [];
+    while ( i < existePedido.length ) {
+        let pedido = existePedido[i];
+        console.log(pedido)
+        const pedidoDetalle = await PedidoDetalle.find({ pedido: pedido._id }).populate('pedido').populate('producto');
+        let objDetalle = {
+            pedido,
+            pedidoDetalle
+        }
+        pedidoDetalleCarrito.push( objDetalle );
+        i++;
+    }
+    res.json({ pedidoDetalleCarrito });
 }
 module.exports = { getPedido, getOneCliente };

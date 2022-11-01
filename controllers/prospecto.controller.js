@@ -32,13 +32,17 @@ const getProspecto = async( req, res ) => {
 }
 // =====_____*****_____***** Método POST :: Estado 2 *****_____*****_____*****=====
 const postProspecto = async(req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     // const { id } = req.params;
     const { contactar, medio, mensaje, prospecto, id } = req.body;
     
     try {
-        const fecha = new Date().toLocaleDateString();
-        const hora = new Date().toLocaleTimeString();
+        const fecha = new Date().toLocaleDateString('es-ES', {
+            timeZone: 'America/La_Paz',
+        });
+        const hora = new Date().toLocaleTimeString('es-ES', {
+            timeZone: 'America/La_Paz',
+        });
         const usuario = new mongoose.Types.ObjectId( id );//
         const idPros = new mongoose.Types.ObjectId( prospecto );
         // Nuevo contacto
@@ -59,14 +63,13 @@ const getProspectoContactar = async( req, res ) => {
     while ( i < total.length ) {
         let inicial = total[i];
         if ( inicial.estado === 2 ) {
-            let [ numeroVeces, fechaUltima ] = await Promise.all([
+            let [ numeroVeces, datoContacto ] = await Promise.all([
                 Contacto.countDocuments({ idPros: inicial._id }),
-                Contacto.find({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
+                Contacto.find({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ).populate('usuario').populate('idPros'),
             ])
             let objProspecto = {
-                prospecto: inicial,
                 numeroVeces,
-                fechaUltima
+                datoContacto
             };
             prospectoInicial.push( objProspecto );
         }
