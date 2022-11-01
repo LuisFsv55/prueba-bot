@@ -63,13 +63,15 @@ const getProspectoContactar = async( req, res ) => {
     while ( i < total.length ) {
         let inicial = total[i];
         if ( inicial.estado === 2 ) {
-            let [ numeroVeces, datoContacto ] = await Promise.all([
+            let [ numeroVeces, fechaInicial, fechaUltima ] = await Promise.all([
                 Contacto.countDocuments({ idPros: inicial._id }),
-                Contacto.find({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ).populate('usuario').populate('idPros'),
+                Contacto.findOne({ idPros: inicial._id }),
+                Contacto.findOne({ idPros: inicial._id }).sort( { $natural: -1 } ).limit( 1 ).populate('usuario').populate('idPros'),
             ])
             let objProspecto = {
                 numeroVeces,
-                datoContacto
+                fechaInicial: fechaInicial.fecha,
+                fechaUltima: fechaUltima.fecha
             };
             prospectoInicial.push( objProspecto );
         }
