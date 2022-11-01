@@ -11,10 +11,12 @@ const Usuario = require('../models/Usuario');
 // =====_____*****_____***** Método POST :: Estado 1 *****_____*****_____*****=====
 const getPedido = async( req, res ) => {
     let pedidos = [];
-    let total = await Cliente.find();
+    let total = await Cliente.find().populate('idPros');
     let i = 0;
     while ( i < total.length ) {
         let inicial = total[i];
+        // const borrar = await Cliente.findOne({ idPros: inicial.idPros });
+        // console.log(inicial);
         let [ numeroVeces, fechaUltima ] = await Promise.all([
             Pedido.countDocuments({ cliente: inicial._id }),
             Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
