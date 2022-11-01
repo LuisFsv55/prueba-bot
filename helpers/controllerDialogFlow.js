@@ -295,11 +295,11 @@ const carrito = async( resultado, facebookId ) => {
     // 1. Dato de dialogflow
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
     
-    console.log('--------------------------producto-----------------');
+    // console.log('--------------------------producto-----------------');
     let producto = resultado.outputContexts[2].parameters.fields.Formas.stringValue;
-    console.log(producto)
+    // console.log(producto)
     let productoDB = await Producto.findOne({ forma: producto });
-    console.log('--------------------------producto-----------------');
+    // console.log('--------------------------producto-----------------');
     let carrito;
     let cliente = await Cliente.findOne({ facebookId });
     let prospecto = await Prospecto.findOne({ facebookId });
@@ -324,11 +324,11 @@ const carrito = async( resultado, facebookId ) => {
         const fecha = new Date().toLocaleDateString('es-ES', {
             timeZone: 'America/La_Paz',
         });
-        console.log(fecha)
+        // console.log(fecha)
         const hora = new Date().toLocaleTimeString('es-ES', {
             timeZone: 'America/La_Paz',
         });
-        console.log(hora);
+        // console.log(hora);
         carrito = await Pedido.create({
             monto: 0,
             fecha, 
@@ -388,11 +388,11 @@ const noConfirmacion = async( resultado, facebookId ) => {
 };
 const confirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
-    const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
+    const existePedido = await Pedido.find({ cliente: cliente._id }).sort( { $natural: -1 } ).limit( 1 );
     console.log('--------------confirmar');
     console.log(existePedido)
-    existePedido.confirmado = true;
-    existePedido.save();
+    // existePedido.confirmado = true;
+    // existePedido.save();
     console.log('--------------confirmar');
     return resultado.fulfillmentText;
 }
