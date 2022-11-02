@@ -388,10 +388,12 @@ const noConfirmacion = async( resultado, facebookId ) => {
 };
 const confirmacion = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
+    const prospecto = await Prospecto.findOne({ facebookId });
     const existePedido = await Pedido.find({ cliente: cliente._id }).sort( { $natural: -1 } ).limit( 1 );
     // console.log('--------------confirmar');
     // console.log(existePedido[0]);
     // console.log(existePedido[0].confirmado);
+    prospecto.estado = 3;
     existePedido[0].confirmado = true;
     existePedido[0].save();
     console.log('--------------confirmar');
