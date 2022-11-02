@@ -15,18 +15,18 @@ const getPedido = async( req, res ) => {
     let i = 0;
     while ( i < total.length ) {
         let inicial = total[i];
-        // const borrar = await Cliente.findOne({ idPros: inicial.idPros });
-        // console.log(inicial);
-        let [ numeroVeces, fechaUltima ] = await Promise.all([
-            Pedido.countDocuments({ cliente: inicial._id }),
-            Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
-        ]) 
-        let objProspecto = {
-            cliente: inicial,
-            numeroVeces,
-            fechaUltima
-        };
-        pedidos.push( objProspecto );
+        if ( inicial.idPros.estado === 3 ) {
+            let [ numeroVeces, fechaUltima ] = await Promise.all([
+                Pedido.countDocuments({ cliente: inicial._id }),
+                Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
+            ]) 
+            let objProspecto = {
+                cliente: inicial,
+                numeroVeces,
+                fechaUltima
+            };
+            pedidos.push( objProspecto );
+        }
         i++;
     }
     res.json({ pedidos });
