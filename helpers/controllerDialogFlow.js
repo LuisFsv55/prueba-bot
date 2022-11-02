@@ -394,6 +394,7 @@ const confirmacion = async( resultado, facebookId ) => {
     // console.log(existePedido[0]);
     // console.log(existePedido[0].confirmado);
     prospecto.estado = 3;
+    prospecto.save();
     existePedido[0].confirmado = true;
     existePedido[0].save();
     console.log('--------------confirmar');
