@@ -408,8 +408,11 @@ const pedirNombre = async( resultado, facebookId ) => {
 }
 const correoCliente = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
+    const prospecto = await Prospecto.findOne({ facebookId });
+    prospecto.correo = resultado?.queryText 
     cliente.correo = resultado?.queryText;
     cliente.save();
+    prospecto.save();
     return resultado.fulfillmentText;
 }
 const noConfirmarCarrito = async( resultado, facebookId ) => {
