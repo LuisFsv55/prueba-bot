@@ -46,4 +46,35 @@ const getOneCliente = async( req, res ) => {
     }
     res.json({ pedidoDetalleCarrito });
 }
-module.exports = { getPedido, getOneCliente };
+const getMuchoPedido = async ( req, res ) => {
+    // todo: falta promedio de fechas
+    let pedidos = [];
+    let total = await Cliente.find().populate('idPros');
+    let i = 0;
+    while ( i < total.length ) {
+        let inicial = total[i];
+        if ( inicial.idPros.estado === 4 ) {
+            let [ promedioCompra, fechaUltima ] = await Promise.all([
+                Pedido.find({ cliente: inicial._id }),
+                Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
+            ])
+            // Promedio de compras
+            let promedio = 0;
+            let cantidad = 0;
+            for (let i = 0; i < promedioCompra.length; i++) {
+                promedio = promedio + promedioCompra[i].monto;
+                cantidad = cantidad + 1;
+            }
+
+            let objProspecto = {
+                cliente: inicial,
+                promedioCompra: promedio / cantidad,
+                fechaUltima
+            };
+            pedidos.push( objProspecto );
+        }
+        i++;
+    }
+    res.json({ pedidos });
+};
+module.exports = { getPedido, getOneCliente, getMuchoPedido };
