@@ -8,6 +8,7 @@ const Usuario = require('../models/Usuario');
 
 // =====_____*****_____***** Método POST :: Estado 1 *****_____*****_____*****=====
 const getProspecto = async( req, res ) => {
+    // 
     let prospectoInicial = [];
     let total = await Prospecto.find();
     let i = 0;
