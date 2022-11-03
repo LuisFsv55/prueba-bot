@@ -40,8 +40,7 @@ const getOneCliente = async( req, res ) => {
     let pedidoDetalleCarrito = [];
     while ( i < existePedido.length ) {
         let pedido = existePedido[i];
-        console.log(pedido)
-        const pedidoDetalle = await PedidoDetalle.find({ pedido: pedido._id }).populate('pedido').populate('producto');
+        const pedidoDetalle = await PedidoDetalle.find({ pedido: pedido._id }).populate('producto');
         let objDetalle = {
             pedido,
             pedidoDetalle
