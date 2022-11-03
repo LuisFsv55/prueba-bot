@@ -7,6 +7,8 @@ const Producto = require('../models/Producto');
 const Sucursal = require('../models/Sucursal');
 const Promocion = require('../models/Promocion');
 const Detalle = require('../models/Detalle');
+const Pedido = require('../models/Pedido');
+const { default: mongoose } = require('mongoose');
 
 const test = ( req, res ) => {
     // console.log( typeof new Date().toLocaleDateString() );
@@ -49,6 +51,16 @@ const test = ( req, res ) => {
     // producto3.save();
     // promocion1.save();
     // promocion2.save();
+
+    // TODO: Agregar pedidos
+    const pedido = new Pedido({ 
+        fecha: "3/11/2022", 
+        hora: "09:34:41", 
+        monto: 2000, 
+        cliente:  mongoose.Types.ObjectId( "635dd0e1a10bc0f8a7fa9847" ),
+        confirmado: true
+    });
+    pedido.save();
     res.send('Bot prueba');
     // console.log('Bot prueba');
 }
