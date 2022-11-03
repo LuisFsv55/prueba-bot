@@ -12,7 +12,9 @@ const Usuario = require('../models/Usuario');
 const getTest = async( req = request, res = response ) => {
     const { facebookId } = req.body;
     const cliente = await Cliente.findOne({ facebookId });
-    const prospecto = await Prospecto.findOne({ facebookId });
-    res.json({ prospecto });
+    const cantidadPedidos = await Pedido.countDocuments({ cliente: cliente._id  });
+    // const cliente = await Cliente.findOne({ facebookId });
+    // const prospecto = await Prospecto.findOne({ facebookId });
+    res.json({ cantidadPedidos });
 };
 module.exports = { getTest };
