@@ -53,15 +53,15 @@ const test = ( req, res ) => {
     // promocion2.save();
 
     // TODO: Agregar pedidos
-    const pedido = new Pedido({ 
-        fecha: "3/11/2022", 
-        hora: "09:34:41", 
-        monto: 2000, 
-        cliente:  mongoose.Types.ObjectId( "635dd0e1a10bc0f8a7fa9847" ),
-        confirmado: true
-    });
-    pedido.save();
-    res.send('Bot prueba');
+    // const pedido = new Pedido({ 
+    //     fecha: "3/11/2022", 
+    //     hora: "09:34:41", 
+    //     monto: 2000, 
+    //     cliente:  mongoose.Types.ObjectId( "635dd0e1a10bc0f8a7fa9847" ),
+    //     confirmado: true
+    // });
+    // pedido.save();
+    res.send('Bot prueba1');
     // console.log('Bot prueba');
 }
 const getWebHook = ( req, res ) => {

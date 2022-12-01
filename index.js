@@ -13,7 +13,7 @@ app.use( bodyParser.json() );
 app.use( cors() );
 app.use( bodyParser.urlencoded({ extended: false }) );
 
-
+// base de datos
 dbConexion();
 // ===__********** Carpeta pública  **********__===
 app.use( express.static('public') );
