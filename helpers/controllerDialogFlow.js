@@ -294,8 +294,8 @@ const Sucursales = async() => {
 // 2022-10-25T15:08:50.450098+00:00 app[web.1]: { stringValue: 'silla', kind: 'stringValue' }
 const carrito = async( resultado, facebookId ) => {
     console.log(resultado.outputContexts[2].parameters.fields.number);
-    console.log(resultado.outputContexts[2].parameters.fields.Formas);
     console.log( resultado.outputContexts );
+    console.log( resultado );
     // 1. Dato de dialogflow
     // let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue ); 
     // // console.log('--------------------------producto-----------------');
