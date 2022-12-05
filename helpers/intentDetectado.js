@@ -33,14 +33,14 @@ const detectIntent = async( proyectId = config.GOOGLE_PROJECT_ID, sessionId = uu
             }
         }
         const responses = await sessionClient.detectIntent( request );
-        console.log("responses" + responses);
+        // console.log("responses" + responses);
         const result = responses[0].queryResult;
-        console.log("result " + result )
-        console.log("aqui_------------------------")
+        // console.log("result " + result )
+        // console.log("aqui_------------------------")
         if ( result.intent ) {
-            console.log("INTENT EMPAREJADO: ", result.intent.displayName);
+            // console.log("INTENT EMPAREJADO: ", result.intent.displayName);
         } else {
-            console.log('No hay intenciones')
+            // console.log('No hay intenciones')
         }
         return result;
         // console.log("se enviara el resultado: ", result);

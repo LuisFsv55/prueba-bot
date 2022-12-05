@@ -95,9 +95,10 @@ const controllerDialogFlow = async( resultado, senderId ) => {
     }
     return peticion;
 }
+// TODO
 const Saludo = async( resultado, facebookId ) => {
     const prospecto = await Prospecto.findOne({ facebookId });
-    console.log("prospecto" + prospecto)
+    // console.log("prospecto" + prospecto)
     let listar = ''
     if ( prospecto ) {
         listar = `Hola Buenas ${ prospecto.nombre } ¿Usted necesita información o saber detalles de alquiler de mesas y silla?`
@@ -115,7 +116,7 @@ const valor = async( resultado, facebookId ) => {
         const cliente = await Cliente.findOne({ facebookId });
         const registrar = new Valoracion( { opinion: comentario, cliente  } );
         registrar.save();
-        console.log('------- Valoracion creada -------' + Cliente)
+        // console.log('------- Valoracion creada -------' + Cliente)
     } catch (error) {
         console.log('Error al insertar en la db: ' + error);
     }
@@ -141,17 +142,17 @@ const formaMesaCuadrada = async( resultado, facebookId ) => {
     const producto = await Producto.findOne({ forma: 'cuadrada' });
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
-        console.log('entro aqui');
+        // console.log('entro aqui');
         await Consulta.create({ producto, prospecto });
     }
     return resultado.fulfillmentText;
 }
 const formaMesaCircular = async( resultado, facebookId ) => {
-    console.log('mesa cuadrada');
+    // console.log('mesa cuadrada');
     const producto = await Producto.findOne({ forma: 'redonda' });
     const prospecto = await Prospecto.findOne({ facebookId });
     if ( prospecto && producto ) {
-        console.log('entro aqui');
+        // console.log('entro aqui');
         await Consulta.create({ producto, prospecto });
     }
     return resultado.fulfillmentText;
@@ -232,9 +233,9 @@ const envioImagen = async( imagenes, id ) => {
             }
         }, (err, res, body) => {
             if (!err) {
-                console.log('Al fin')
+                // console.log('Al fin')
             } else {
-                console.log('Nada' + err);
+                // console.log('Nada' + err);
             }
         })
     })
@@ -292,73 +293,75 @@ const Sucursales = async() => {
 // 
 // 2022-10-25T15:08:50.450098+00:00 app[web.1]: { stringValue: 'silla', kind: 'stringValue' }
 const carrito = async( resultado, facebookId ) => {
+    console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
+    console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
+    console.log( resultado.outputContexts );
     // 1. Dato de dialogflow
-    let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue );
-    
-    // console.log('--------------------------producto-----------------');
-    let producto = resultado.outputContexts[2].parameters.fields.Formas.stringValue;
-    // console.log(producto)
-    let productoDB = await Producto.findOne({ forma: producto });
-    // console.log('--------------------------producto-----------------');
-    let carrito;
-    let cliente = await Cliente.findOne({ facebookId });
-    let prospecto = await Prospecto.findOne({ facebookId });
-    if ( !productoDB ) {// es mesa
-        productoDB = await Producto.findOne({ nombre: "silla" });        
-    }
-    // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
-    if ( !cliente ) {
-        cliente = await Cliente.create({
-            nombre: prospecto.nombre,
-            facebookId: prospecto.facebookId,
-            idPros: prospecto._id
-        });
-    }
-    // 3. Encontramos cliente y prospecto: encontrar pedido anterior
-    if ( cliente ) {
-        // encontramos el anterior carrito
-        carrito = await Pedido.findOne({ cliente: cliente._id, confirmado: false });
-    }
-    // crear nuevo carrito
-    if ( !carrito ) {
-        const fecha = new Date().toLocaleDateString('es-ES', {
-            timeZone: 'America/La_Paz',
-        });
-        // console.log(fecha)
-        const hora = new Date().toLocaleTimeString('es-ES', {
-            timeZone: 'America/La_Paz',
-        });
-        // console.log(hora);
-        carrito = await Pedido.create({
-            monto: 0,
-            fecha, 
-            hora,
-            cliente: cliente._id
-            // confirmado por defecto false
-        });
-    }
-    // detalle del pedido
-    let subTotal = cantidad * parseInt( productoDB.precio );
-    await PedidoDetalle.create({
-        cantidad,
-        precio: parseInt( productoDB.precio ),
-        sub_total: subTotal,
-        producto: productoDB._id,
-        pedido: carrito._id
-    });
-    // TODO: ACTUALIZAR MONTO
-    let montoCarrito = parseInt( carrito.monto ) + subTotal;
-    await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
-    // console.log('---------------Inicio carrito --------------');
-    // console.log(carrito);
-    // console.log(subTotal);
-    // console.log(montoCarrito);
-    // console.log('---------------Fin carrito --------------');
-    
+    // let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue ); 
+    // // console.log('--------------------------producto-----------------');
+    // let producto = resultado.outputContexts[2].parameters.fields.Formas.stringValue;
+    // // console.log(producto)
+    // let productoDB = await Producto.findOne({ forma: producto });
+    // // console.log('--------------------------producto-----------------');
+    // let carrito;
+    // let cliente = await Cliente.findOne({ facebookId });
+    // let prospecto = await Prospecto.findOne({ facebookId });
+    // if ( !productoDB ) {// es mesa
+    //     productoDB = await Producto.findOne({ nombre: "silla" });        
+    // }
+    // // 2. Verificar si es cliente por 1ra vez y crearlo un cliente
+    // if ( !cliente ) {
+    //     cliente = await Cliente.create({
+    //         nombre: prospecto.nombre,
+    //         facebookId: prospecto.facebookId,
+    //         idPros: prospecto._id
+    //     });
+    // }
+    // // 3. Encontramos cliente y prospecto: encontrar pedido anterior
+    // if ( cliente ) {
+    //     // encontramos el anterior carrito
+    //     carrito = await Pedido.findOne({ cliente: cliente._id, confirmado: false });
+    // }
+    // // crear nuevo carrito
+    // if ( !carrito ) {
+    //     const fecha = new Date().toLocaleDateString('es-ES', {
+    //         timeZone: 'America/La_Paz',
+    //     });
+    //     // console.log(fecha)
+    //     const hora = new Date().toLocaleTimeString('es-ES', {
+    //         timeZone: 'America/La_Paz',
+    //     });
+    //     // console.log(hora);
+    //     carrito = await Pedido.create({
+    //         monto: 0,
+    //         fecha, 
+    //         hora,
+    //         cliente: cliente._id
+    //         // confirmado por defecto false
+    //     });
+    // }
+    // // detalle del pedido
+    // let subTotal = cantidad * parseInt( productoDB.precio );
+    // await PedidoDetalle.create({
+    //     cantidad,
+    //     precio: parseInt( productoDB.precio ),
+    //     sub_total: subTotal,
+    //     producto: productoDB._id,
+    //     pedido: carrito._id
+    // });
+    // // TODO: ACTUALIZAR MONTO
+    // let montoCarrito = parseInt( carrito.monto ) + subTotal;
+    // await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
+    // // console.log('---------------Inicio carrito --------------');
+    // // console.log(carrito);
+    // // console.log(subTotal);
+    // // console.log(montoCarrito);
+    // // console.log('---------------Fin carrito --------------');
     
     
-    // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
-    // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
+    
+    // // console.log(resultado.outputContexts[2].parameters.fields.number.numberValue);
+    // // console.log(resultado.outputContexts[2].parameters.fields.Formas.stringValue);
     return resultado.fulfillmentText;
 };
 // {
@@ -399,7 +402,7 @@ const confirmacion = async( resultado, facebookId ) => {
     prospecto.save();
     existePedido[0].confirmado = true;
     existePedido[0].save();
-    console.log('--------------confirmar');
+    // console.log('--------------confirmar');
     return resultado.fulfillmentText;
 }
 const pedirNombre = async( resultado, facebookId ) => {

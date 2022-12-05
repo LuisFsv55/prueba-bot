@@ -14,7 +14,7 @@ const getProspecto = async( req, res ) => {
     let i = 0;
     while ( i < total.length ) {
         let inicial = total[i];
-        console.log(inicial.correo);
+        // console.log(inicial.correo);
         if ( inicial.estado === 1 ) {
             let [entrada, numeroVeces, ultimoIngreso] = await Promise.all([
                 Ingreso.find({ prospecto: inicial._id }),
@@ -34,7 +34,7 @@ const getProspecto = async( req, res ) => {
 }
 // =====_____*****_____***** Método POST :: Estado 2 *****_____*****_____*****=====
 const postProspecto = async(req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     // const { id } = req.params;
     const { contactar, medio, mensaje, prospecto, id } = req.body;
     
