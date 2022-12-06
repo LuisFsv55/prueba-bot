@@ -295,6 +295,8 @@ const Sucursales = async() => {
 const carrito = async( resultado, facebookId ) => {
 
     // Silla
+    console.log('--------------carrito----------------')
+    console.log( resultado );
     console.log( resultado.outputContexts[2].parameters.fields.paquete.stringValue );
     console.log( resultado.outputContexts[2].parameters.fields.paquete );
     console.log( resultado.outputContexts[2].parameters.fields );
@@ -402,9 +404,10 @@ const carrito = async( resultado, facebookId ) => {
 //   __v: 0
 // }
 const noConfirmacion = async( resultado, facebookId ) => {
+    console.log( resultado )
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.findOne({ cliente: { _id: cliente._id } }).populate('cliente');
-    let mensaje = `Su carrito tiene la suma total de: ${ existePedido.monto }$ quiere confirmar su carrito?`;
+    let mensaje = `Perfecto quiere confirmar su carrito?`;
     return mensaje;
 };
 const confirmacion = async( resultado, facebookId ) => {
