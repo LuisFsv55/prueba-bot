@@ -317,9 +317,9 @@ const carrito = async( resultado, facebookId ) => {
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue ); 
     // console.log('--------------------------producto-----------------');
     let producto = '';
-    if ( resultado.outputContexts[2]?.parameters?.fields?.Formas?.stringValue === 'redonda'  ) {
+    if ( resultado.outputContexts[2].parameters?.fields?.Formas?.stringValue === 'redonda'  ) {
         producto = 'redonda';
-    } else if ( resultado.outputContexts[2]?.parameters?.fields?.Formas?.stringValue === 'cuadrada' ) {
+    } else if ( resultado.outputContexts[2].parameters?.fields?.Formas?.stringValue === 'cuadrada' ) {
         producto = 'cuadrada';
     } else {
         producto = 'silla';
