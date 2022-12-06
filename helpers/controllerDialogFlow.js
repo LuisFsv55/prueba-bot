@@ -294,12 +294,15 @@ const Sucursales = async() => {
 // 2022-10-25T15:08:50.450098+00:00 app[web.1]: { stringValue: 'silla', kind: 'stringValue' }
 const carrito = async( resultado, facebookId ) => {
 
-    // Silla
-    console.log('--------------carrito----------------')
-    // console.log( resultado );
-    console.log( resultado.outputContexts[2].parameters.fields.paquete.stringValue );
-    console.log( resultado.outputContexts[2].parameters.fields['number-integer'].numberValue );
-    console.log( resultado.outputContexts[2].parameters.fields.number.numberValue );
+    // Paquete
+    // console.log( resultado.outputContexts[2].parameters.fields.paquete.stringValue );
+    // console.log( resultado.outputContexts[2].parameters.fields['number-integer'].numberValue );
+    // console.log( resultado.outputContexts[2].parameters.fields.number.numberValue );
+    let unionPaquete = resultado.outputContexts[2].parameters.fields.paquete.stringValue + ' ' + resultado.outputContexts[2].parameters.fields['number-integer'].numberValue;
+    console.log(unionPaquete);
+    const paquete = Promocion.findOne({ nombre: `${ unionPaquete }` });
+    console.log(paquete)
+    // Silla Mesa
     // console.log( resultado.outputContexts[2].parameters.fields.paquete );
     // console.log( resultado.outputContexts[2].parameters.fields );
     // console.log( resultado.outputContexts );
