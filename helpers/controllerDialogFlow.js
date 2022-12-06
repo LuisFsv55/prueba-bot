@@ -299,6 +299,7 @@ const carrito = async( resultado, facebookId ) => {
     // console.log( resultado );
     console.log( resultado.outputContexts[2].parameters.fields.paquete.stringValue );
     console.log( resultado.outputContexts[2].parameters.fields['number-integer'].numberValue );
+    console.log( resultado.outputContexts[2].parameters.fields.number.numberValue );
     // console.log( resultado.outputContexts[2].parameters.fields.paquete );
     // console.log( resultado.outputContexts[2].parameters.fields );
     // console.log( resultado.outputContexts );
