@@ -299,9 +299,10 @@ const carrito = async( resultado, facebookId ) => {
     // console.log( resultado.outputContexts );
     console.log( resultado.intent.displayName.toLowerCase() );
     console.log( resultado.intent.displayName.toLowerCase().includes('silla') )
-    console.log( resultado.intent.displayName.toLowerCase().includes('redonda') )
-    console.log( resultado.intent.displayName.toLowerCase().includes('cuadrada') )
-    
+    console.log( resultado.outputContexts[2].parameters.fields.Formas.stringValue )
+    // console.log( resultado.intent.displayName.toLowerCase().includes('redonda') )
+    // console.log( resultado.intent.displayName.toLowerCase().includes('cuadrada') )
+
     // 1. Dato de dialogflow
     // let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue ); 
     // // console.log('--------------------------producto-----------------');
@@ -362,9 +363,9 @@ const carrito = async( resultado, facebookId ) => {
     // let montoCarrito = parseInt( carrito.monto ) + subTotal;
     // await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
     // console.log('---------------Inicio carrito --------------');
-    // // console.log(carrito);
-    // // console.log(subTotal);
-    // // console.log(montoCarrito);
+    // console.log(carrito);
+    // console.log(subTotal);
+    // console.log(montoCarrito);
     // console.log('---------------Fin carrito --------------');
     
     
