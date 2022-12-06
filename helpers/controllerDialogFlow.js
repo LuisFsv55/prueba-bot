@@ -296,9 +296,9 @@ const carrito = async( resultado, facebookId ) => {
 
     // Silla
     console.log('--------------carrito----------------')
-    console.log( resultado );
+    // console.log( resultado );
     console.log( resultado.outputContexts[2].parameters.fields.paquete.stringValue );
-    console.log( resultado.outputContexts[2].parameters.fields.number-integer );
+    console.log( resultado.outputContexts[2].parameters.fields['number-integer'] );
     console.log( resultado.outputContexts[2].parameters.fields.paquete );
     console.log( resultado.outputContexts[2].parameters.fields );
     // console.log( resultado.outputContexts );
@@ -372,7 +372,7 @@ const carrito = async( resultado, facebookId ) => {
     // // // TODO: ACTUALIZAR MONTO
     // let montoCarrito = parseInt( carrito.monto ) + subTotal;
     // await Pedido.findByIdAndUpdate( { _id: carrito._id }, { monto: montoCarrito } );
-    // // console.log('---------------Inicio carrito --------------');
+    // // // console.log('---------------Inicio carrito --------------');
     // // console.log(carrito);
     // // console.log(subTotal);
     // // console.log(montoCarrito);
