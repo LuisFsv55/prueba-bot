@@ -312,6 +312,8 @@ const carrito = async( resultado, facebookId ) => {
     // console.log( resultado.intent.displayName.toLowerCase().includes('redonda') )
     // console.log( resultado.intent.displayName.toLowerCase().includes('cuadrada') )
     console.log( resultado.outputContexts[2].parameters.fields.Formas.stringValue );
+    console.log( resultado );
+    console.log( resultado.parameters?.fields );
     // Promociones
     // 1. Dato de dialogflow
     let cantidad = await parseInt( resultado.outputContexts[2].parameters.fields.number.numberValue ); 
