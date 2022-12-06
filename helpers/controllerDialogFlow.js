@@ -411,7 +411,7 @@ const noConfirmacion = async( resultado, facebookId ) => {
     // console.log( resultado )
     const cliente = await Cliente.findOne({ facebookId });
     const existePedido = await Pedido.find({ cliente: { _id: cliente._id } });
-    let mensaje = `Perfecto su compra tiene un total de ${ existePedido[existePedido.length - 1] } quiere confirmar su carrito?`;
+    let mensaje = `Perfecto su compra tiene un total de ${ existePedido[existePedido.length - 1].monto } quiere confirmar su carrito?`;
     return mensaje;
 };
 const confirmacion = async( resultado, facebookId ) => {
