@@ -8,6 +8,16 @@ const app = express();
 
 let port = process.env.PORT || 8080;
 
+// ------------------------------------------------
+// TODO: HACER EN TOPICOS EN LA PRESENTACION FINAL
+// 1. REGISTRO DE LAS CONVERSACIONES
+// 2. REGISTRO DE LOS PEDIDOS
+// 3. REGISTRO DEL CARRITO
+// 4. REGISTRO DE LOS DATOS DEL CLIENTE O PROSPECTO
+// -------------------------------------------------
+// ( EXTRA ). INGRESO A ESA HORA O A QUE HORA SALI, OTRA CONVERSACION 
+
+
 app.use( express.json() );
 app.use( bodyParser.json() );
 app.use( cors() );
