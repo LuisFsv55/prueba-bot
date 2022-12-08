@@ -3,7 +3,7 @@ const Promocion = require("../models/Promocion");
 
 
 const obtenerTodos = async( req, res ) => {
-    const detalle = await Detalle.find().populate('producto').populate('promocion');
+    const detalle = await Detalle.find().populate('producto').populate('promocion').where();
     res.json({
         detalle
     });
@@ -31,8 +31,16 @@ const crearPromo = async( req, res ) => {
         msg: 'creado exitosamente'
     })
 }
-const eliminarPromo = ( req, res ) => {
-
+const eliminarPromo = async( req, res ) => {
+    const { id } = req.params;
+    const detalle = await Detalle.findOne({ _id: id });
+    const promocion = await Promocion.findOne({ _id: detalle.promocion });
+    await detalle.deleteOne();
+    await promocion.deleteOne();
+    res.json({
+        msg: 'Eliminado con exito'
+    })
+    // const eliminar = await Promocion.
 }
 module.exports = {
     obtenerTodos, crearPromo, eliminarPromo
