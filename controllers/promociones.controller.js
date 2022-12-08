@@ -1,4 +1,5 @@
 const Detalle = require("../models/Detalle");
+const Producto = require("../models/Producto");
 const Promocion = require("../models/Promocion");
 
 
@@ -42,6 +43,12 @@ const eliminarPromo = async( req, res ) => {
     })
     // const eliminar = await Promocion.
 }
+const obtenerProducto = async( req, res ) => {
+    const productos = await Producto.find();
+    res.json({
+        productos
+    })
+}
 module.exports = {
-    obtenerTodos, crearPromo, eliminarPromo
+    obtenerTodos, crearPromo, eliminarPromo, obtenerProducto
 }
