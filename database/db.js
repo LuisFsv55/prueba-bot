@@ -3,7 +3,8 @@ require('dotenv').config();
 const dbConexion = async() => {
     try {
         await mongoose.connect( process.env.MONGO_DB, {
-            useNewUrlParser: true
+            useNewUrlParser: true,
+        
         });
         console.log('Base de datos iniciada correctamente');
     } catch (error) {

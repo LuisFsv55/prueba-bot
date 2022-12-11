@@ -3,12 +3,12 @@ const request = require('request');
 const { controllerDialogFlow } = require('../helpers/controllerDialogFlow');
 const { detectIntent } = require('../helpers/intentDetectado');
 const config = require('../config/index');
-const Producto = require('../models/Producto');
-const Sucursal = require('../models/Sucursal');
-const Promocion = require('../models/Promocion');
-const Detalle = require('../models/Detalle');
-const Pedido = require('../models/Pedido');
-const { default: mongoose } = require('mongoose');
+// const Producto = require('../models/Producto');
+// const Sucursal = require('../models/Sucursal');
+// const Promocion = require('../models/Promocion');
+// const Detalle = require('../models/Detalle');
+// const Pedido = require('../models/Pedido');
+// const { default: mongoose } = require('mongoose');
 
 const test = ( req, res ) => {
     // console.log( typeof new Date().toLocaleDateString() );

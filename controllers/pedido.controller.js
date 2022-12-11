@@ -46,6 +46,22 @@ const getOneCliente = async( req, res ) => {
     }
     res.json({ pedidoDetalleCarrito });
 }
+const obtener4estado = async ( req, res ) => {
+    let total = await Cliente.find().populate('idPros');
+    let clientes = [];
+    let i = 0;
+    while ( i < total.length ) {
+        let inicial = total[i];
+        if ( inicial.idPros.estado === 4 ) {
+            let obj = {
+                correo: inicial.idPros.correo
+            }
+            clientes.push( obj );
+        }
+        i++;
+    }
+    res.json({ clientes });
+}
 const getMuchoPedido = async ( req, res ) => {
     // todo: falta promedio de fechas
     // 01/11/2022
@@ -106,7 +122,7 @@ const getMuchoPedido = async ( req, res ) => {
     }
     res.json({ pedidos });
 };
-module.exports = { getPedido, getOneCliente, getMuchoPedido };
+module.exports = { getPedido, getOneCliente, getMuchoPedido, obtener4estado };
 // TODO
 // var fixed = "01/11/2022".split("/");
 // var fechaInicio = new Date(`${fixed[2]}-${fixed[1]}-${fixed[0]}`).getTime()
