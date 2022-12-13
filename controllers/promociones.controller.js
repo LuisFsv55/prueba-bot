@@ -1,4 +1,6 @@
+const Cliente = require("../models/Cliente");
 const Detalle = require("../models/Detalle");
+const Notificaciones = require("../models/Notificaciones");
 const Producto = require("../models/Producto");
 const Promocion = require("../models/Promocion");
 
@@ -49,6 +51,33 @@ const obtenerProducto = async( req, res ) => {
         productos
     })
 }
+const nofificar = async( req, res ) => {
+    let [ promocion ] = await Promise.all([
+        Promocion.findOne().sort( { $natural: -1 } ).limit( 1 )
+    ]) 
+    let total = await Cliente.find().populate('idPros');
+    let i = 0;
+    while ( i < total.length ) {
+        let cliente = total[i];
+        if ( cliente.idPros.estado === 4 ) {
+            await Notificaciones.create({
+                cliente: cliente._id,
+                fecha: new Date().toLocaleString('es-ES', {
+                    timeZone: 'America/La_Paz',
+                }),
+                promocion: promocion._id
+            })
+        }
+        i++;
+    }
+    res.json({ msg: 'Notificaco exitosamente' });
+}
+const notificacionUltima = async( req, res ) => {
+    let promocion = await Promocion.findOne().sort( { $natural: -1 } ).limit( 1 );
+    res.json({
+        promocion
+    });
+}
 module.exports = {
-    obtenerTodos, crearPromo, eliminarPromo, obtenerProducto
+    obtenerTodos, crearPromo, eliminarPromo, obtenerProducto, nofificar, notificacionUltima
 }

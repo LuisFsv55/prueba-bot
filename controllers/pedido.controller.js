@@ -1,6 +1,8 @@
 const { request, response } = require('express');
 const { default: mongoose } = require('mongoose');
 const Cliente = require('../models/Cliente');
+const Detalle = require('../models/Detalle');
+const Notificaciones = require('../models/Notificaciones');
 const Pedido = require('../models/Pedido');
 const PedidoDetalle = require('../models/PedidoDetalle');
 
@@ -60,10 +62,10 @@ const obtener4estado = async ( req, res ) => {
         }
         i++;
     }
-    res.json({ clientes });
+    const mas = clientes.length;
+    res.json({ clientes, contador: mas });
 }
 const getMuchoPedido = async ( req, res ) => {
-    // todo: falta promedio de fechas
     // 01/11/2022
     // 3 dias
     // 04/11/2022
@@ -81,7 +83,7 @@ const getMuchoPedido = async ( req, res ) => {
         if ( inicial.idPros.estado === 4 ) {
             let [ promedioCompra, fechaUltima ] = await Promise.all([
                 Pedido.find({ cliente: inicial._id }),
-                Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 ),
+                Pedido.find({ cliente: inicial._id }).sort( { $natural: -1 } ).limit( 1 )
             ])
             // Promedio de compras
             let promedio = 0, cantidad = 0;
@@ -109,12 +111,23 @@ const getMuchoPedido = async ( req, res ) => {
             for (let j = 0; j < promedioPrincipal.length; j++) {
                 suma = suma + promedioPrincipal[j];
             }
-            let totalFecha = suma / cantidadFecha
+            let totalFecha = suma / cantidadFecha;
+
+           
+
+            // Notificaciones
+            const veces = await Notificaciones.countDocuments({ cliente: inicial._id });
+
+            // Detalle de las notificaciones que le llego
+            // const notificaciones = await Notificaciones.find();
+
+
             let objProspecto = {
                 fecha: Math.round( totalFecha ),
                 cliente: inicial,
                 promedioCompra: promedio / cantidad,
-                fechaUltima
+                fechaUltima,
+                vecesNotificado: veces
             };
             pedidos.push( objProspecto );
         }
@@ -122,7 +135,28 @@ const getMuchoPedido = async ( req, res ) => {
     }
     res.json({ pedidos });
 };
-module.exports = { getPedido, getOneCliente, getMuchoPedido, obtener4estado };
+const oneNotificacion = async (req, res) => {
+    const { id } = req.params;
+    const cliente = await Cliente.findOne({ facebookId: id });
+    const notifaciones = await Notificaciones.find({ cliente: cliente });
+    let i = 0;
+    let promociones = [];
+    while ( i < notifaciones.length ) {
+        let notificacion = notifaciones[i];
+        // console.log(notificacion.promocion);
+        const notify = await Detalle.findOne({ promocion: notificacion.promocion }).populate('producto').populate('promocion');
+        let objDetalle = {
+            notify
+        }
+        promociones.push( objDetalle );
+        i++;
+    }
+    res.json({
+        promociones
+    })
+
+}
+module.exports = { getPedido, getOneCliente, getMuchoPedido, obtener4estado, oneNotificacion };
 // TODO
 // var fixed = "01/11/2022".split("/");
 // var fechaInicio = new Date(`${fixed[2]}-${fixed[1]}-${fixed[0]}`).getTime()
