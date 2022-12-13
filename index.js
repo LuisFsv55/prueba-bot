@@ -35,6 +35,7 @@ app.use('/api/usuario', require( './routes/usuarioAuth.routes' ));
 app.use('/api/pedido', require( './routes/pedido.routes' ));
 app.use('/api/test', require( './routes/test.routes'));
 app.use('/api/promociones', require( './routes/promociones.routes'));
+app.use('/api/notificaciones',require('./routes/notificaciones.routes'));
 // ===__********** Arrancar servidor  **********__===
 app.listen( port, () => {
     console.log( 'Servidor iniciando en puerto: ' + port );
