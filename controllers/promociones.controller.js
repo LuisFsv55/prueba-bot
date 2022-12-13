@@ -74,8 +74,26 @@ const nofificar = async( req, res ) => {
 }
 const notificacionUltima = async( req, res ) => {
     let promocion = await Promocion.findOne().sort( { $natural: -1 } ).limit( 1 );
+    let detalle = await Detalle.findOne({ promocion: promocion._id }).populate('promocion').populate('producto');
+    
+    let total = await Cliente.find().populate('idPros');
+    let clientes = [];
+    let i = 0;
+    while ( i < total.length ) {
+        let inicial = total[i];
+        if ( inicial.idPros.estado === 4 ) {
+            let obj = {
+                correo: inicial.idPros.correo
+            }
+            clientes.push( obj );
+        }
+        i++;
+    }
+    const mas = clientes.length;
+
     res.json({
-        promocion
+        detalle,
+        clientes
     });
 }
 module.exports = {

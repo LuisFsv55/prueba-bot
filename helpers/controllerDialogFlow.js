@@ -12,6 +12,17 @@ const Ingreso = require("../models/Ingreso");
 const request = require('request');
 const Pedido = require("../models/Pedido");
 const PedidoDetalle = require("../models/PedidoDetalle");
+
+const Pusher = require("pusher");
+//**************************************** */
+const pusher = new Pusher({
+    appId: "1515676",
+    key: "9cb69b0c52d9af0d8ff3",
+    secret: "018d85ef6715f586ec53",
+    cluster: "us2",
+    useTLS: true
+});
+
 const controllerDialogFlow = async( resultado, senderId ) => {
     let peticion = {};
     let respuesta;
@@ -436,6 +447,11 @@ const pedirNombre = async( resultado, facebookId ) => {
     const cliente = await Cliente.findOne({ facebookId });
     cliente.nombre = resultado?.queryText;
     cliente.save();
+    let titulop = '';
+    titulop = `Nuevo Pedido de ${cliente.nombre}`
+    pusher.trigger("actualizar-channel", "actualizar-event", {
+        titulo: titulop,
+    });
     return resultado.fulfillmentText;
 }
 const correoCliente = async( resultado, facebookId ) => {
@@ -470,6 +486,11 @@ const ApiFacebook = async( facebookId ) => {
             facebookId,
             estado: 1,
             posicion: 1
+        });
+        let titulop = "";
+        titulop = `Un nuevo prospecto está registrado`
+        pusher.trigger("actualizar-channel", "actualizar-event", {
+            titulo: titulop,
         });
     } else {
         const entrada = await Ingreso.findOne({
