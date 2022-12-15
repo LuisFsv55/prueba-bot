@@ -28,7 +28,7 @@ const crearPromo = async( req, res ) => {
         cantidadMesas,
         imagen
     });
-    // await nuevaPromocion.save();
+    await nuevaPromocion.save();
     const detallePromocion = new Detalle({
         producto,
         promocion: nuevaPromocion._id
