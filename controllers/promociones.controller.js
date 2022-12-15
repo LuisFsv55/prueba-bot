@@ -15,35 +15,43 @@ const obtenerTodos = async( req, res ) => {
     });
 }
 const crearPromo = async( req, res ) => {
+
     const { nombre, descuento, descripcion, cantidadSillas, cantidadMesas, producto, imagen } = req.body;
-    const fecha = new Date().toLocaleDateString('es-ES', {
-        timeZone: 'America/La_Paz',
+
+    let post_id = "";
+    FB.setAccessToken(`${ config.TOKEN }`);
+    var imgURL=`${ imagen }`;
+    //change with your external photo url 
+    FB.api('me/photos', 'post', { message:'photo description', url:imgURL }, async response => {  
+        if (!response || response.error) { 
+            console.log('Error occured'); 
+        } else { 
+            post_id = response.id
+            console.log('Post ID: ' + response.id); 
+        } 
+        const fecha = new Date().toLocaleDateString('es-ES', {
+            timeZone: 'America/La_Paz',
+        });
+        const nuevaPromocion = new Promocion({
+            nombre, 
+            descuento,
+            descripcion,
+            fecha,
+            cantidadSillas,
+            cantidadMesas,
+            imagen,
+            postId: post_id
+        });
+        await nuevaPromocion.save();
+        const detallePromocion = new Detalle({
+            producto,
+            promocion: nuevaPromocion._id
+        });
+        await detallePromocion.save();
     });
-    const nuevaPromocion = new Promocion({
-        nombre, 
-        descuento,
-        descripcion,
-        fecha,
-        cantidadSillas,
-        cantidadMesas,
-        imagen
-    });
-    await nuevaPromocion.save();
-    const detallePromocion = new Detalle({
-        producto,
-        promocion: nuevaPromocion._id
-    });
-    await detallePromocion.save();
-    // FB.setAccessToken(`${ config.TOKEN }`);
-    // var imgURL=`${ imagen }`;
-    // //change with your external photo url 
-    // FB.api('me/photos', 'post', { message:'photo description', url:imgURL }, function(response){
-    //     if (!response || response.error) { 
-    //         console.log('Error occured'); 
-    //     } else { 
-    //         console.log('Post ID: ' + response.id); 
-    //     } 
-    // });
+
+   
+   
     res.json({
         msg: 'creado exitosamente',
         // nuevaPromocion,
@@ -54,15 +62,22 @@ const eliminarPromo = async( req, res ) => {
     const { id } = req.params;
     const detalle = await Detalle.findOne({ _id: id });
     const promocion = await Promocion.findOne({ _id: detalle.promocion });
+
+
+    FB.setAccessToken(`${ config.TOKEN }`);
+    var postId = promocion.postId;
+    FB.api(postId, 'delete', function (res) {
+        if(!res || res.error) {
+            console.log(!res ? 'error occurred' : res.error);
+            return;
+        }
+        console.log('Post was deleted');
+    });
     await detalle.deleteOne();
     await promocion.deleteOne();
-    if (promocion.image.public_id) {
-        await deleteImage(promocion.image.public_id);
-    }
     res.json({
         msg: 'Eliminado con exito'
-    })
-    // const eliminar = await Promocion.
+    });
 }
 const obtenerProducto = async( req, res ) => {
     const productos = await Producto.find();
