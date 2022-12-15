@@ -15,21 +15,7 @@ const obtenerTodos = async( req, res ) => {
     });
 }
 const crearPromo = async( req, res ) => {
-    const { nombre, descuento, descripcion, cantidadSillas, cantidadMesas, producto } = req.body;
-    // cloudinary
-    let image = null;
-        // req.files.- Información de la imagen que se ha subido
-    // console.log(req.files?.image);
-    if ( req.files?.image ) {
-        // console.log(req.files.image.tempFilePath)
-        const result = await uploadImage( req.files.image.tempFilePath );
-        // Elimine las imagenes del servidor
-        await fs.remove( req.files.image.tempFilePath );
-        image = {
-            url: result.secure_url,
-            public_id: result.public_id,
-        };
-    }
+    const { nombre, descuento, descripcion, cantidadSillas, cantidadMesas, producto, imagen } = req.body;
     const fecha = new Date().toLocaleDateString('es-ES', {
         timeZone: 'America/La_Paz',
     });
@@ -40,28 +26,28 @@ const crearPromo = async( req, res ) => {
         fecha,
         cantidadSillas,
         cantidadMesas,
-        image
+        imagen
     });
-    await nuevaPromocion.save();
+    // await nuevaPromocion.save();
     const detallePromocion = new Detalle({
         producto,
         promocion: nuevaPromocion._id
     });
     await detallePromocion.save();
-    FB.setAccessToken(`${ config.TOKEN }`);
-    var imgURL="http://farm4.staticflickr.com/3332/3451193407_b7f047f4b4_o.jpg";
-    //change with your external photo url 
-    FB.api('me/photos', 'post', { message:'photo description', url:imgURL }, function(response){
-        if (!response || response.error) { 
-            console.log('Error occured'); 
-        } else { 
-            console.log('Post ID: ' + response.id); 
-        } 
-    });
+    // FB.setAccessToken(`${ config.TOKEN }`);
+    // var imgURL=`${ imagen }`;
+    // //change with your external photo url 
+    // FB.api('me/photos', 'post', { message:'photo description', url:imgURL }, function(response){
+    //     if (!response || response.error) { 
+    //         console.log('Error occured'); 
+    //     } else { 
+    //         console.log('Post ID: ' + response.id); 
+    //     } 
+    // });
     res.json({
         msg: 'creado exitosamente',
-        nuevaPromocion,
-        url
+        // nuevaPromocion,
+        // url
     })
 }
 const eliminarPromo = async( req, res ) => {

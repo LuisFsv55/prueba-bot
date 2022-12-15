@@ -21,9 +21,8 @@ const PromocionSchema = Schema({
     cantidadMesas: {
         type: String
     },
-    image: {
-        public_id: String,
-        url: String,
+    imagen: {
+        type: String
     },
     estado: {
         type: Boolean,
