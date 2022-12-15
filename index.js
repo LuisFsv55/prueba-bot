@@ -5,7 +5,7 @@ const webRoutes = require('./routes/web.routes');
 const cors = require('cors');
 const dbConexion = require('./database/db');
 const app = express();
-
+const fileUpdload = require('express-fileupload');
 let port = process.env.PORT || 8080;
 
 // ------------------------------------------------
@@ -22,7 +22,7 @@ app.use( express.json() );
 app.use( bodyParser.json() );
 app.use( cors() );
 app.use( bodyParser.urlencoded({ extended: false }) );
-
+app.use( fileUpdload({ useTempFiles: true, tempFileDir: './upload' }));
 // base de datos
 dbConexion();
 // ===__********** Carpeta pública  **********__===
